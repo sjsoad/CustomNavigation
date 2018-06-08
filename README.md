@@ -16,7 +16,7 @@ Should be something like this:
 
 `class CustomFallAnimation: NSObject, CustomAnimatedTransitioning {`    
 
-`ar duration: TimeInterval`    
+`var duration: TimeInterval`    
 `var reverseTransition: Bool`    
 
 `required init(duration: TimeInterval = 1, reverseTransition: Bool = false) {`    
