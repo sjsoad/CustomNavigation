@@ -32,7 +32,7 @@ Should be something like this:
 
 `func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {`  
 `write transition code here`  
-`and don't forget to call animationFinished() whe animation is finished. This method change 'direction' of animation automatically`  
+`and don't forget to call animationFinished() when animation is finished. This method will change 'direction' of animation automatically`  
 `}`  
 
 **reverseTransition** - false value means that this is 'forward' navigation and vise versa
