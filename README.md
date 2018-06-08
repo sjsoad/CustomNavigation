@@ -45,7 +45,7 @@ In case you already have your custom navigation controller, make sure it inherit
 `let navigationController = NavigationController(rootViewController: YourViewController)`
 `window?.rootViewController = navigationController`
 
-If you want to add interaction to navigation controller, you can do next:  
+If you want to add interaction(when navigation controller recognizes right swipe gesture to perform back action) to navigation controller, you can do next:  
 
 `navigationController.set(interactive: true)`  
 
