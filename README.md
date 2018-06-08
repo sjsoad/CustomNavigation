@@ -4,7 +4,11 @@
 
 ### What should you do?  
 
-# Remember: import module in each place where you want to use classes from this pod
+### Remember: import module in each place where you want to use classes from this pod
+
+**Installation:**  
+
+pod 'CustomNavigation'  
 
 **1. How to create custom animation with CustomNavigation pod**   
 
@@ -66,7 +70,7 @@ In this case, you should use DefaultTransitioningDelegate. DefaultTransitioningD
 
 You already know how to create animation. As for interactor, you can inherit from UIPercentDrivenInteractiveTransition and write your custom interaction with the controller.  
 
-Finally, when you will have your animation and, optionally, interactor, you need to do next:  
+Finally, when you will have your animation and, optionally, interactor, you need to do the following:  
 
 Create a property of transitioningDelegate with custom animation, also you can set interactor while initing delegate, in case you have everything you need for that:  
 
