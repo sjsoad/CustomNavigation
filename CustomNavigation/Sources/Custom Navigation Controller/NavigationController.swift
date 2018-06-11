@@ -15,7 +15,7 @@ public protocol InteractiveNavigation {
     
 }
 
-open class NavigationController: UINavigationController, UINavigationControllerDelegate, UIGestureRecognizerDelegate, InteractiveNavigation {
+open class DefaultNavigationController: UINavigationController, UINavigationControllerDelegate, UIGestureRecognizerDelegate, InteractiveNavigation {
     
     override open func viewDidLoad() {
         super.viewDidLoad()

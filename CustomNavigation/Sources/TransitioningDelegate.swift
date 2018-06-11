@@ -8,19 +8,27 @@
 
 import UIKit
 
+public typealias PresentationControllerProvider = (_ presented: UIViewController, _ presenting: UIViewController?,
+    _ source: UIViewController) -> UIPresentationController?
+
 public protocol TransitioningDelegate: UIViewControllerTransitioningDelegate, AnimationControllerProvider {
     
-    init(animatedTransitioning: CustomAnimatedTransitioning?, interactionController: UIViewControllerInteractiveTransitioning?)
-    
+    init(animatedTransitioning: CustomAnimatedTransitioning?, interactionController: UIViewControllerInteractiveTransitioning?,
+         presentationControllerProvider: PresentationControllerProvider?)
 }
 
 open class DefaultTransitioningDelegate: NSObject, TransitioningDelegate {
-
+    
     public var animatedTransitioning: CustomAnimatedTransitioning?
     public var interactionController: UIViewControllerInteractiveTransitioning?
+    public var presentationControllerProvider: PresentationControllerProvider?
     
-    required public init(animatedTransitioning: CustomAnimatedTransitioning?, interactionController: UIViewControllerInteractiveTransitioning? = nil) {
+    required public init(animatedTransitioning: CustomAnimatedTransitioning? = nil,
+                         interactionController: UIViewControllerInteractiveTransitioning? = nil,
+                         presentationControllerProvider: PresentationControllerProvider? = nil) {
         self.animatedTransitioning = animatedTransitioning
+        self.interactionController = interactionController
+        self.presentationControllerProvider = presentationControllerProvider
     }
     
     // MARK: - UIViewControllerTransitioningDelegate -
@@ -29,6 +37,11 @@ open class DefaultTransitioningDelegate: NSObject, TransitioningDelegate {
         return interactionController
     }
 
+    public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?,
+                                       source: UIViewController) -> UIPresentationController? {
+        return presentationControllerProvider?(presented, presenting, source)
+    }
+    
     public func animationController(forPresented presented: UIViewController, presenting: UIViewController,
                              source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         animatedTransitioning?.reverseTransition = false

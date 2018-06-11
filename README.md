@@ -46,7 +46,7 @@ Should be something like this:
 If you want to create custom push/pop navigation you should use NavigationController class for navigation controller object. This class already implements everything we need.
 In case you already have your custom navigation controller, make sure it inherits from NavigationController class from this pod.  
 
-`let navigationController = NavigationController(rootViewController: YourViewController)`
+`let navigationController = DefaultNavigationController(rootViewController: YourViewController)`
 `window?.rootViewController = navigationController`
 
 If you want to add interaction(when navigation controller recognizes right swipe gesture to perform back action) to navigation controller, you can do next:  
@@ -83,4 +83,24 @@ in my case, I will set interactor at that moment, when I will have a view contro
 Finally, set delegate to a view controller, that will be presented: 
 
 `viewControllerToPresent.transitioningDelegate = transitioningDelegate`    
+`viewController.present(viewControllerToPresent, animated: true, completion: nil)`  
+
+**4. Custom presentation using UIPresentationController**  
+
+DefaultPresentationController provides you properties for configuring width and vertical position of view that will be presented.  
+You can create your own class that inherits from UIPresentationController and return an object of that class in a block. Example of using DefaultPresentationController:    
+
+Create a variable of DefaultTransitioningDelegate with animation(optional), interactor(optional) and presentation controller provider(optional)  
+
+`private var customTransitioningDelegate = DefaultTransitioningDelegate(presentationControllerProvider: {  
+(presented, presenting, _) -> UIPresentationController? in  
+let presentationController = DefaultPresentationController(presentedViewController: presented, presenting: presenting)  
+presentationController.verticalPosition = .bottom  
+return presentationController  
+})`  
+
+Set modalPresentationStyle .custom and transitioningDelegate to view controller that will be presented
+
+`viewControllerToPresent.modalPresentationStyle = .custom`  
+`viewControllerToPresent.transitioningDelegate = customTransitioningDelegate`    
 `viewController.present(viewControllerToPresent, animated: true, completion: nil)`  

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A54219CD20CE867200B5D235 /* PresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54219CC20CE867200B5D235 /* PresentationController.swift */; };
 		A5664FE920C99947000AD03F /* CustomNavigation.h in Headers */ = {isa = PBXBuildFile; fileRef = A5664FE720C99947000AD03F /* CustomNavigation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A5664FFA20C99A54000AD03F /* TransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5664FF220C99A54000AD03F /* TransitioningDelegate.swift */; };
 		A5664FFB20C99A54000AD03F /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5664FF420C99A54000AD03F /* NavigationController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A54219CC20CE867200B5D235 /* PresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationController.swift; sourceTree = "<group>"; };
 		A5664FE420C99947000AD03F /* CustomNavigation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CustomNavigation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5664FE720C99947000AD03F /* CustomNavigation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomNavigation.h; sourceTree = "<group>"; };
 		A5664FF020C99A54000AD03F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 		A5664FF120C99A54000AD03F /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				A54219CC20CE867200B5D235 /* PresentationController.swift */,
 				A5664FF220C99A54000AD03F /* TransitioningDelegate.swift */,
 				A5664FF320C99A54000AD03F /* Custom Navigation Controller */,
 				A5664FF520C99A54000AD03F /* Protocols */,
@@ -182,6 +185,7 @@
 				A5664FFA20C99A54000AD03F /* TransitioningDelegate.swift in Sources */,
 				A5664FFB20C99A54000AD03F /* NavigationController.swift in Sources */,
 				A5664FFE20C99A54000AD03F /* CustomAnimatedTransitioning.swift in Sources */,
+				A54219CD20CE867200B5D235 /* PresentationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
