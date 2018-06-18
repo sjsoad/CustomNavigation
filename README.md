@@ -95,7 +95,7 @@ Create a variable of DefaultTransitioningDelegate with animation(optional), inte
 `private var customTransitioningDelegate = DefaultTransitioningDelegate(presentationControllerProvider: {  
 (presented, presenting, _) -> UIPresentationController? in  
 let presentationController = DefaultPresentationController(presentedViewController: presented, presenting: presenting)  
-presentationController.verticalPosition = .bottom  
+presentationController.position.y = .bottom  
 return presentationController  
 })`  
 

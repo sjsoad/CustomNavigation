@@ -8,18 +8,35 @@
 
 import UIKit
 
-public enum VerticalPosition: Equatable {
+public enum xPosition {
+    case left
+    case center
+    case right
+    case custom(x: CGFloat)
+}
+
+public enum yPosition {
     case top
     case center
     case bottom
-    case custom(yPosition: CGFloat)
+    case custom(y: CGFloat)
+}
+
+public struct Position {
+    public var x: xPosition
+    public var y: yPosition
+    
+    public init(x: xPosition, y: yPosition) {
+        self.x = x
+        self.y = y
+    }
 }
 
 public typealias DimmingViewTapEventHandler = ((UITapGestureRecognizer) -> Void)
 
 public protocol PresentationControlling {
     
-    var verticalPosition: VerticalPosition { get set }
+    var position: Position { get set }
     var percentageOfWidth: CGFloat { get set }
     var dimmingViewTapEventHandler: DimmingViewTapEventHandler? { get set }
     func configuredDimmingView() -> UIView?
@@ -36,7 +53,7 @@ open class DefaultPresentationController: UIPresentationController, Presentation
     
     // MARK: - Utils -
     
-    public var verticalPosition: VerticalPosition = .center
+    public var position: Position = Position(x: .center, y: .center)
     public var percentageOfWidth: CGFloat = 0.9
     public var dimmingViewTapEventHandler: DimmingViewTapEventHandler?
     
@@ -83,6 +100,32 @@ open class DefaultPresentationController: UIPresentationController, Presentation
         })
     }
     
+    private func xPosition(for containerView: UIView, frameSize: CGSize) -> CGFloat {
+        switch position.x {
+        case .left:
+            return 0
+        case .center:
+            return (containerView.frame.width - frameSize.width)/2
+        case .right:
+            return containerView.frame.width - frameSize.width
+        case .custom(let x):
+            return x
+        }
+    }
+    
+    private func yPosition(for containerView: UIView, frameSize: CGSize) -> CGFloat {
+        switch position.y {
+        case .top:
+            return 0
+        case .center:
+            return (containerView.frame.height - frameSize.height)/2
+        case .bottom:
+            return containerView.frame.height - frameSize.height
+        case .custom(let y):
+            return y
+        }
+    }
+    
     // MARK: - Actions -
     
     @objc dynamic func handleTap(_ recognizer: UITapGestureRecognizer) {
@@ -111,17 +154,9 @@ open class DefaultPresentationController: UIPresentationController, Presentation
     override open var frameOfPresentedViewInContainerView: CGRect {
         guard let containerView = containerView else { return .zero }
         let frameSize = size(forChildContentContainer: presentedViewController, withParentContainerSize: containerView.bounds.size)
-        var origin = CGPoint.zero
-        switch verticalPosition {
-        case .top:
-            origin = CGPoint(x: (containerView.frame.width - frameSize.width)/2, y: 0)
-        case .bottom:
-            origin = CGPoint(x: (containerView.frame.width - frameSize.width)/2, y: containerView.frame.maxY - frameSize.height)
-        case .custom(let yPosition):
-            origin = CGPoint(x: (containerView.frame.width - frameSize.width)/2, y: yPosition)
-        case .center:
-            origin = CGPoint(x: (containerView.frame.width - frameSize.width)/2, y: (containerView.frame.height - frameSize.height)/2)
-        }
+        let x = xPosition(for: containerView, frameSize: frameSize)
+        let y = yPosition(for: containerView, frameSize: frameSize)
+        let origin = CGPoint(x: x, y: y)
         return CGRect(origin: origin, size: frameSize)
     }
     
