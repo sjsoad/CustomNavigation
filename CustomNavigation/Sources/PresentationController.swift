@@ -128,7 +128,7 @@ open class DefaultPresentationController: UIPresentationController, Presentation
     
     // MARK: - Actions -
     
-    @objc dynamic func handleTap(_ recognizer: UITapGestureRecognizer) {
+    @objc private dynamic func handleTap(_ recognizer: UITapGestureRecognizer) {
         guard let dimmingViewTapEventHandler = dimmingViewTapEventHandler else {
             presentingViewController.dismiss(animated: true)
             return
