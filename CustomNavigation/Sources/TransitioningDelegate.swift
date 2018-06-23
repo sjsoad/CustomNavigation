@@ -23,7 +23,7 @@ open class DefaultTransitioningDelegate: NSObject, TransitioningDelegate {
     public var interactionController: UIViewControllerInteractiveTransitioning?
     public var presentationControllerProvider: PresentationControllerProvider?
     
-    required public init(animatedTransitioning: CustomAnimatedTransitioning? = nil,
+    public required init(animatedTransitioning: CustomAnimatedTransitioning? = nil,
                          interactionController: UIViewControllerInteractiveTransitioning? = nil,
                          presentationControllerProvider: PresentationControllerProvider? = nil) {
         self.animatedTransitioning = animatedTransitioning
