@@ -33,22 +33,22 @@ open class DefaultTransitioningDelegate: NSObject, TransitioningDelegate {
     
     // MARK: - UIViewControllerTransitioningDelegate -
     
-    public func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    open func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return interactionController
     }
 
-    public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?,
+    open func presentationController(forPresented presented: UIViewController, presenting: UIViewController?,
                                        source: UIViewController) -> UIPresentationController? {
         return presentationControllerProvider?(presented, presenting, source)
     }
     
-    public func animationController(forPresented presented: UIViewController, presenting: UIViewController,
+    open func animationController(forPresented presented: UIViewController, presenting: UIViewController,
                              source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         animatedTransitioning?.reverseTransition = false
         return animatedTransitioning
     }
     
-    public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    open func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         animatedTransitioning?.reverseTransition = true
         return animatedTransitioning
     }

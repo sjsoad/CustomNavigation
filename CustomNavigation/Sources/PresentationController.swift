@@ -57,7 +57,7 @@ open class DefaultPresentationController: UIPresentationController, Presentation
     public var percentageOfWidth: CGFloat = 0.9
     public var dimmingViewTapEventHandler: DimmingViewTapEventHandler?
     
-    public func configuredDimmingView() -> UIView? {
+    open func configuredDimmingView() -> UIView? {
         let dimmingView = UIView()
         dimmingView.translatesAutoresizingMaskIntoConstraints = false
         dimmingView.backgroundColor = UIColor(white: 0.0, alpha: 0.5)

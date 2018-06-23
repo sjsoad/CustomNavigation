@@ -36,7 +36,7 @@ open class DefaultNavigationController: UINavigationController, UINavigationCont
     
     // MARK: - UINavigationControllerDelegate -
     
-    public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation,
+    open func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation,
                               from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         let sourceVC = operation == .push ? fromVC : toVC
         guard let animationControllerProvider = sourceVC as? AnimationControllerProvider,
@@ -47,7 +47,7 @@ open class DefaultNavigationController: UINavigationController, UINavigationCont
     
     // MARK: - UIGestureRecognizerDelegate -
     
-    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    open func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
