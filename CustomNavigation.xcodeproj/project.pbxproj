@@ -14,6 +14,7 @@
 		A5664FFC20C99A54000AD03F /* AnimationControllerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5664FF620C99A54000AD03F /* AnimationControllerProvider.swift */; };
 		A5664FFD20C99A54000AD03F /* TransitioningDelegateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5664FF720C99A54000AD03F /* TransitioningDelegateProvider.swift */; };
 		A5664FFE20C99A54000AD03F /* CustomAnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5664FF820C99A54000AD03F /* CustomAnimatedTransitioning.swift */; };
+		A5C40AA520E109CC003AC97C /* CustomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C40AA420E109CB003AC97C /* CustomTransition.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		A5664FF620C99A54000AD03F /* AnimationControllerProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationControllerProvider.swift; sourceTree = "<group>"; };
 		A5664FF720C99A54000AD03F /* TransitioningDelegateProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitioningDelegateProvider.swift; sourceTree = "<group>"; };
 		A5664FF820C99A54000AD03F /* CustomAnimatedTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnimatedTransitioning.swift; sourceTree = "<group>"; };
+		A5C40AA420E109CB003AC97C /* CustomTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTransition.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 		A5664FF120C99A54000AD03F /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				A5C40AA320E109CB003AC97C /* Animation */,
 				A54219CC20CE867200B5D235 /* PresentationController.swift */,
 				A5664FF220C99A54000AD03F /* TransitioningDelegate.swift */,
 				A5664FF320C99A54000AD03F /* Custom Navigation Controller */,
@@ -100,6 +103,14 @@
 				A5664FF820C99A54000AD03F /* CustomAnimatedTransitioning.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		A5C40AA320E109CB003AC97C /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				A5C40AA420E109CB003AC97C /* CustomTransition.swift */,
+			);
+			path = Animation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,6 +192,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5664FFC20C99A54000AD03F /* AnimationControllerProvider.swift in Sources */,
+				A5C40AA520E109CC003AC97C /* CustomTransition.swift in Sources */,
 				A5664FFD20C99A54000AD03F /* TransitioningDelegateProvider.swift in Sources */,
 				A5664FFA20C99A54000AD03F /* TransitioningDelegate.swift in Sources */,
 				A5664FFB20C99A54000AD03F /* NavigationController.swift in Sources */,
