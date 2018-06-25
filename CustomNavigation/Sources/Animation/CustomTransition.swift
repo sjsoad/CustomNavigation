@@ -7,16 +7,15 @@
 //
 
 import Foundation
-import SKCustomNavigation
 
-enum TransitionDirection {
+public enum TransitionDirection {
     case fromTop
     case fromLeft
     case fromRight
     case fromBottom
 }
 
-enum TransitionType {
+public enum TransitionType {
     case push
     case slide
     case zoomPush(scale: CGFloat)
@@ -26,15 +25,15 @@ enum TransitionType {
     case zoom
 }
 
-class CustomTransition: NSObject, CustomAnimatedTransitioning {
+open class CustomTransition: NSObject, CustomAnimatedTransitioning {
     
-    var duration: TimeInterval
-    var reverseTransition: Bool
-    var transitionType: TransitionType
+    open var duration: TimeInterval
+    open var reverseTransition: Bool
+    open var transitionType: TransitionType
     
-    var pushDelta: CGFloat = 0.2 // How much bottom view will be moved on push
+    open var pushDelta: CGFloat = 0.2 // How much bottom view will be moved on push
     
-    init(duration: TimeInterval = 0.5, reverseTransition: Bool = false, transitionType: TransitionType) {
+    public init(duration: TimeInterval = 0.5, reverseTransition: Bool = false, transitionType: TransitionType) {
         self.duration = duration
         self.reverseTransition = reverseTransition
         self.transitionType = transitionType
@@ -42,22 +41,23 @@ class CustomTransition: NSObject, CustomAnimatedTransitioning {
     
     // MARK: - UIViewControllerAnimatedTransitioning -
     
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+    public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
     }
     
-    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+    public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let container = transitionContext.containerView
-        guard let toView = transitionContext.view(forKey: UITransitionContextViewKey.to) else { return }
-        guard let fromView = transitionContext.view(forKey: UITransitionContextViewKey.from) else { return }
+        guard let toView = transitionContext.view(forKey: .to) else { return }
+        guard let fromView = transitionContext.view(forKey: .from) else { return }
+        toView.frame = fromView.frame
         reverseTransition == false ? container.addSubview(toView) : container.insertSubview(toView, belowSubview: fromView)
         prepareForAnimation(fromView: fromView, toView: toView)
         UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: { [weak self] in
             self?.performAnimation(fromView: fromView, toView: toView)
             }, completion: { [weak self] (_) in
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
                 self?.animationFinished()
                 self?.completeTransition(fromView: fromView, toView: toView)
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         })
     }
     
@@ -72,18 +72,18 @@ class CustomTransition: NSObject, CustomAnimatedTransitioning {
             toView.transform = CGAffineTransform(translationX: -fromView.frame.size.width * pushDelta, y: 0)
         case .slide:
             let multiplier: CGFloat = reverseTransition ? -1 : 1
-            toView.transform = CGAffineTransform(translationX: 0, y: multiplier * toView.bounds.size.height)
+            toView.transform = CGAffineTransform(translationX: 0, y: multiplier * toView.frame.size.height)
         case .zoomPush(let scale):
             let multiplier: CGFloat = reverseTransition ? -1 : 1
-            var transform = CGAffineTransform(translationX: multiplier * toView.bounds.size.width, y: 0)
+            var transform = CGAffineTransform(translationX: multiplier * toView.frame.size.width, y: 0)
             transform = transform.scaledBy(x: scale, y: scale)
             toView.transform = transform
         case .cover:
             guard !reverseTransition else { return }
-            toView.transform = CGAffineTransform(translationX: 0, y: toView.bounds.size.height)
+            toView.transform = CGAffineTransform(translationX: 0, y: toView.frame.size.height)
         case .page(let scale):
             guard reverseTransition else {
-                toView.transform = CGAffineTransform(translationX: toView.bounds.size.width, y: 0)
+                toView.transform = CGAffineTransform(translationX: toView.frame.size.width, y: 0)
                 return }
             toView.transform = CGAffineTransform(scaleX: scale, y: scale)
         case .fade:
@@ -107,24 +107,24 @@ class CustomTransition: NSObject, CustomAnimatedTransitioning {
         case .slide:
             toView.transform = .identity
             let multiplier: CGFloat = reverseTransition ? 1 : -1
-            fromView.transform = CGAffineTransform(translationX: 0, y: multiplier * fromView.bounds.size.height)
+            fromView.transform = CGAffineTransform(translationX: 0, y: multiplier * fromView.frame.size.height)
         case .zoomPush(let scale):
             toView.transform = .identity
             let multiplier: CGFloat = reverseTransition ? 1 : -1
-            var transform = CGAffineTransform(translationX: multiplier * toView.bounds.size.width, y: 0)
+            var transform = CGAffineTransform(translationX: multiplier * toView.frame.size.width, y: 0)
             transform = transform.scaledBy(x: scale, y: scale)
             fromView.transform = transform
         case .cover:
             guard reverseTransition else {
                 toView.transform = .identity
                 return }
-            fromView.transform = CGAffineTransform(translationX: 0, y: toView.bounds.size.height)
+            fromView.transform = CGAffineTransform(translationX: 0, y: toView.frame.size.height)
         case .page(let scale):
             toView.transform = .identity
             guard reverseTransition else {
                 fromView.transform = CGAffineTransform(scaleX: scale, y: scale)
                 return }
-            fromView.transform = CGAffineTransform(translationX: toView.bounds.size.width, y: 0)
+            fromView.transform = CGAffineTransform(translationX: toView.frame.size.width, y: 0)
         case .fade:
             guard reverseTransition else {
                 toView.alpha = 1
