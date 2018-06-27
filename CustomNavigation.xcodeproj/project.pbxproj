@@ -7,27 +7,45 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A54219CD20CE867200B5D235 /* PresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54219CC20CE867200B5D235 /* PresentationController.swift */; };
 		A5664FE920C99947000AD03F /* CustomNavigation.h in Headers */ = {isa = PBXBuildFile; fileRef = A5664FE720C99947000AD03F /* CustomNavigation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A5664FFA20C99A54000AD03F /* TransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5664FF220C99A54000AD03F /* TransitioningDelegate.swift */; };
-		A5664FFB20C99A54000AD03F /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5664FF420C99A54000AD03F /* NavigationController.swift */; };
-		A5664FFC20C99A54000AD03F /* AnimationControllerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5664FF620C99A54000AD03F /* AnimationControllerProvider.swift */; };
-		A5664FFD20C99A54000AD03F /* TransitioningDelegateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5664FF720C99A54000AD03F /* TransitioningDelegateProvider.swift */; };
-		A5664FFE20C99A54000AD03F /* CustomAnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5664FF820C99A54000AD03F /* CustomAnimatedTransitioning.swift */; };
-		A5C40AA520E109CC003AC97C /* CustomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C40AA420E109CB003AC97C /* CustomTransition.swift */; };
+		A599C9E220E3C83500C7A4A1 /* TransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C9D420E3C83300C7A4A1 /* TransitioningDelegate.swift */; };
+		A599C9E320E3C83500C7A4A1 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C9D620E3C83300C7A4A1 /* NavigationController.swift */; };
+		A599C9E420E3C83500C7A4A1 /* TransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C9D820E3C83400C7A4A1 /* TransitionManager.swift */; };
+		A599C9E620E3C83500C7A4A1 /* AnimationControllerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C9DC20E3C83400C7A4A1 /* AnimationControllerProvider.swift */; };
+		A599C9E720E3C83500C7A4A1 /* TransitionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C9DD20E3C83400C7A4A1 /* TransitionProvider.swift */; };
+		A599C9E820E3C83500C7A4A1 /* AnimatorProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C9DE20E3C83400C7A4A1 /* AnimatorProvider.swift */; };
+		A599C9E920E3C83500C7A4A1 /* TransitioningDelegateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C9DF20E3C83400C7A4A1 /* TransitioningDelegateProvider.swift */; };
+		A599C9EA20E3C83500C7A4A1 /* CustomAnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C9E020E3C83400C7A4A1 /* CustomAnimatedTransitioning.swift */; };
+		A599C9EB20E3C83500C7A4A1 /* PresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C9E120E3C83500C7A4A1 /* PresentationController.swift */; };
+		A599C9EF20E3CA0600C7A4A1 /* Push.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C9EE20E3CA0600C7A4A1 /* Push.swift */; };
+		A599C9F120E3CA2C00C7A4A1 /* Slide.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C9F020E3CA2C00C7A4A1 /* Slide.swift */; };
+		A599C9F320E3CA3C00C7A4A1 /* ZoomSlide.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C9F220E3CA3C00C7A4A1 /* ZoomSlide.swift */; };
+		A599C9F520E3CA4400C7A4A1 /* Cover.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C9F420E3CA4400C7A4A1 /* Cover.swift */; };
+		A599C9F720E3CA4D00C7A4A1 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C9F620E3CA4D00C7A4A1 /* Page.swift */; };
+		A599C9F920E3CA5E00C7A4A1 /* Fade.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C9F820E3CA5E00C7A4A1 /* Fade.swift */; };
+		A599C9FB20E3CA8200C7A4A1 /* Zoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C9FA20E3CA8200C7A4A1 /* Zoom.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A54219CC20CE867200B5D235 /* PresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationController.swift; sourceTree = "<group>"; };
 		A5664FE420C99947000AD03F /* CustomNavigation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CustomNavigation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5664FE720C99947000AD03F /* CustomNavigation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomNavigation.h; sourceTree = "<group>"; };
 		A5664FF020C99A54000AD03F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A5664FF220C99A54000AD03F /* TransitioningDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitioningDelegate.swift; sourceTree = "<group>"; };
-		A5664FF420C99A54000AD03F /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
-		A5664FF620C99A54000AD03F /* AnimationControllerProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationControllerProvider.swift; sourceTree = "<group>"; };
-		A5664FF720C99A54000AD03F /* TransitioningDelegateProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitioningDelegateProvider.swift; sourceTree = "<group>"; };
-		A5664FF820C99A54000AD03F /* CustomAnimatedTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnimatedTransitioning.swift; sourceTree = "<group>"; };
-		A5C40AA420E109CB003AC97C /* CustomTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTransition.swift; sourceTree = "<group>"; };
+		A599C9D420E3C83300C7A4A1 /* TransitioningDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitioningDelegate.swift; sourceTree = "<group>"; };
+		A599C9D620E3C83300C7A4A1 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		A599C9D820E3C83400C7A4A1 /* TransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionManager.swift; sourceTree = "<group>"; };
+		A599C9DC20E3C83400C7A4A1 /* AnimationControllerProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationControllerProvider.swift; sourceTree = "<group>"; };
+		A599C9DD20E3C83400C7A4A1 /* TransitionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionProvider.swift; sourceTree = "<group>"; };
+		A599C9DE20E3C83400C7A4A1 /* AnimatorProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatorProvider.swift; sourceTree = "<group>"; };
+		A599C9DF20E3C83400C7A4A1 /* TransitioningDelegateProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitioningDelegateProvider.swift; sourceTree = "<group>"; };
+		A599C9E020E3C83400C7A4A1 /* CustomAnimatedTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnimatedTransitioning.swift; sourceTree = "<group>"; };
+		A599C9E120E3C83500C7A4A1 /* PresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationController.swift; sourceTree = "<group>"; };
+		A599C9EE20E3CA0600C7A4A1 /* Push.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Push.swift; sourceTree = "<group>"; };
+		A599C9F020E3CA2C00C7A4A1 /* Slide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slide.swift; sourceTree = "<group>"; };
+		A599C9F220E3CA3C00C7A4A1 /* ZoomSlide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomSlide.swift; sourceTree = "<group>"; };
+		A599C9F420E3CA4400C7A4A1 /* Cover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cover.swift; sourceTree = "<group>"; };
+		A599C9F620E3CA4D00C7A4A1 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
+		A599C9F820E3CA5E00C7A4A1 /* Fade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fade.swift; sourceTree = "<group>"; };
+		A599C9FA20E3CA8200C7A4A1 /* Zoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zoom.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,39 +96,56 @@
 		A5664FF120C99A54000AD03F /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				A5C40AA320E109CB003AC97C /* Animation */,
-				A54219CC20CE867200B5D235 /* PresentationController.swift */,
-				A5664FF220C99A54000AD03F /* TransitioningDelegate.swift */,
-				A5664FF320C99A54000AD03F /* Custom Navigation Controller */,
-				A5664FF520C99A54000AD03F /* Protocols */,
+				A599C9D520E3C83300C7A4A1 /* Custom Navigation Controller */,
+				A599C9E120E3C83500C7A4A1 /* PresentationController.swift */,
+				A599C9DB20E3C83400C7A4A1 /* Protocols */,
+				A599C9D720E3C83400C7A4A1 /* Transition Manager */,
+				A599C9D420E3C83300C7A4A1 /* TransitioningDelegate.swift */,
+				A599C9D920E3C83400C7A4A1 /* Transitions */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		A5664FF320C99A54000AD03F /* Custom Navigation Controller */ = {
+		A599C9D520E3C83300C7A4A1 /* Custom Navigation Controller */ = {
 			isa = PBXGroup;
 			children = (
-				A5664FF420C99A54000AD03F /* NavigationController.swift */,
+				A599C9D620E3C83300C7A4A1 /* NavigationController.swift */,
 			);
 			path = "Custom Navigation Controller";
 			sourceTree = "<group>";
 		};
-		A5664FF520C99A54000AD03F /* Protocols */ = {
+		A599C9D720E3C83400C7A4A1 /* Transition Manager */ = {
 			isa = PBXGroup;
 			children = (
-				A5664FF620C99A54000AD03F /* AnimationControllerProvider.swift */,
-				A5664FF720C99A54000AD03F /* TransitioningDelegateProvider.swift */,
-				A5664FF820C99A54000AD03F /* CustomAnimatedTransitioning.swift */,
+				A599C9D820E3C83400C7A4A1 /* TransitionManager.swift */,
 			);
-			path = Protocols;
+			path = "Transition Manager";
 			sourceTree = "<group>";
 		};
-		A5C40AA320E109CB003AC97C /* Animation */ = {
+		A599C9D920E3C83400C7A4A1 /* Transitions */ = {
 			isa = PBXGroup;
 			children = (
-				A5C40AA420E109CB003AC97C /* CustomTransition.swift */,
+				A599C9EE20E3CA0600C7A4A1 /* Push.swift */,
+				A599C9F020E3CA2C00C7A4A1 /* Slide.swift */,
+				A599C9F220E3CA3C00C7A4A1 /* ZoomSlide.swift */,
+				A599C9F420E3CA4400C7A4A1 /* Cover.swift */,
+				A599C9F620E3CA4D00C7A4A1 /* Page.swift */,
+				A599C9F820E3CA5E00C7A4A1 /* Fade.swift */,
+				A599C9FA20E3CA8200C7A4A1 /* Zoom.swift */,
 			);
-			path = Animation;
+			path = Transitions;
+			sourceTree = "<group>";
+		};
+		A599C9DB20E3C83400C7A4A1 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				A599C9DC20E3C83400C7A4A1 /* AnimationControllerProvider.swift */,
+				A599C9DD20E3C83400C7A4A1 /* TransitionProvider.swift */,
+				A599C9DE20E3C83400C7A4A1 /* AnimatorProvider.swift */,
+				A599C9DF20E3C83400C7A4A1 /* TransitioningDelegateProvider.swift */,
+				A599C9E020E3C83400C7A4A1 /* CustomAnimatedTransitioning.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,6 +191,7 @@
 				TargetAttributes = {
 					A5664FE320C99947000AD03F = {
 						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 0940;
 					};
 				};
 			};
@@ -191,13 +227,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5664FFC20C99A54000AD03F /* AnimationControllerProvider.swift in Sources */,
-				A5C40AA520E109CC003AC97C /* CustomTransition.swift in Sources */,
-				A5664FFD20C99A54000AD03F /* TransitioningDelegateProvider.swift in Sources */,
-				A5664FFA20C99A54000AD03F /* TransitioningDelegate.swift in Sources */,
-				A5664FFB20C99A54000AD03F /* NavigationController.swift in Sources */,
-				A5664FFE20C99A54000AD03F /* CustomAnimatedTransitioning.swift in Sources */,
-				A54219CD20CE867200B5D235 /* PresentationController.swift in Sources */,
+				A599C9EF20E3CA0600C7A4A1 /* Push.swift in Sources */,
+				A599C9F120E3CA2C00C7A4A1 /* Slide.swift in Sources */,
+				A599C9E820E3C83500C7A4A1 /* AnimatorProvider.swift in Sources */,
+				A599C9E420E3C83500C7A4A1 /* TransitionManager.swift in Sources */,
+				A599C9F720E3CA4D00C7A4A1 /* Page.swift in Sources */,
+				A599C9E620E3C83500C7A4A1 /* AnimationControllerProvider.swift in Sources */,
+				A599C9EA20E3C83500C7A4A1 /* CustomAnimatedTransitioning.swift in Sources */,
+				A599C9F920E3CA5E00C7A4A1 /* Fade.swift in Sources */,
+				A599C9E220E3C83500C7A4A1 /* TransitioningDelegate.swift in Sources */,
+				A599C9E920E3C83500C7A4A1 /* TransitioningDelegateProvider.swift in Sources */,
+				A599C9FB20E3CA8200C7A4A1 /* Zoom.swift in Sources */,
+				A599C9F520E3CA4400C7A4A1 /* Cover.swift in Sources */,
+				A599C9F320E3CA3C00C7A4A1 /* ZoomSlide.swift in Sources */,
+				A599C9E320E3C83500C7A4A1 /* NavigationController.swift in Sources */,
+				A599C9E720E3C83500C7A4A1 /* TransitionProvider.swift in Sources */,
+				A599C9EB20E3C83500C7A4A1 /* PresentationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +372,7 @@
 		A5664FED20C99947000AD03F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -343,6 +389,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sk.CustomNavigation;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -351,6 +398,7 @@
 		A5664FEE20C99947000AD03F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;

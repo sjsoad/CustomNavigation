@@ -10,7 +10,6 @@ import UIKit
 
 public protocol CustomAnimatedTransitioning: UIViewControllerAnimatedTransitioning {
     
-    var duration: TimeInterval { get set } // duration of transition
     var reverseTransition: Bool { get set } // reverseTransition false means it's push/present, true - pop/dismiss
     
     func animationFinished()
