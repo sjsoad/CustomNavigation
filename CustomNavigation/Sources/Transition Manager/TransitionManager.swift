@@ -46,16 +46,6 @@ open class TransitionManager: NSObject, CustomAnimatedTransitioning {
         }
         animator.startAnimation()
     }
-    
-    // MARK: - Private -
-    
-    // MARK: - Animation Preparetion -
-//
-//    private func prepareForSlide(fromView: UIView, toView: UIView, direction: TransitionDirection) {
-//        let multiplier: CGFloat = reverseTransition ? -1 : 1
-//        toView.transform = CGAffineTransform(translationX: 0, y: multiplier * toView.frame.size.height)
-//    }
-//
 //    private func prepareForZoomPush(fromView: UIView, toView: UIView, direction: TransitionDirection, scale: CGFloat) {
 //        let multiplier: CGFloat = reverseTransition ? -1 : 1
 //        var transform = CGAffineTransform(translationX: multiplier * toView.frame.size.width, y: 0)
@@ -87,13 +77,6 @@ open class TransitionManager: NSObject, CustomAnimatedTransitioning {
 //    }
     
     // MARK: - Animation Perform -
-    
-//    private func performSlide(fromView: UIView, toView: UIView, direction: TransitionDirection) {
-//        toView.transform = .identity
-//        let multiplier: CGFloat = reverseTransition ? 1 : -1
-//        fromView.transform = CGAffineTransform(translationX: 0, y: multiplier * fromView.frame.size.height)
-//    }
-//
 //    private func performZoomPush(fromView: UIView, toView: UIView, direction: TransitionDirection, scale: CGFloat) {
 //        toView.transform = .identity
 //        let multiplier: CGFloat = reverseTransition ? 1 : -1

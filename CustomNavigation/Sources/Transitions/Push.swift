@@ -8,56 +8,54 @@
 
 import UIKit
 
-class Push: NSObject, TransitionProvider {
+open class Push: NSObject, TransitionProvider {
     
     private(set) var transitionDirection: TransitionDirection
     
-    init(transitionDirection: TransitionDirection = .fromRight) {
+    public init(transitionDirection: TransitionDirection = .fromRight) {
         self.transitionDirection = transitionDirection
     }
     
-    func prepareForAnimation(fromView: UIView?, toView: UIView?, reverseTransition: Bool) {
-        let xPoint = xPosition(for: toView, reverseTransition: reverseTransition)
-        let yPoint = yPosition(for: toView, reverseTransition: reverseTransition)
+    public func prepareForAnimation(fromView: UIView?, toView: UIView?, reverseTransition: Bool) {
+        let xPoint = xPosition(for: toView)
+        let yPoint = yPosition(for: toView)
         guard reverseTransition else {
             toView?.transform = CGAffineTransform(translationX: xPoint, y: yPoint)
             return }
-        toView?.transform = CGAffineTransform(translationX: xPoint * xDelta, y: yPoint * yDelta)
+        toView?.transform = CGAffineTransform(translationX: -xPoint * xDelta, y: -yPoint * yDelta)
     }
     
-    func performAnimation(fromView: UIView?, toView: UIView?, reverseTransition: Bool) {
-        let xPoint = xPosition(for: toView, reverseTransition: reverseTransition)
-        let yPoint = yPosition(for: toView, reverseTransition: reverseTransition)
+    public func performAnimation(fromView: UIView?, toView: UIView?, reverseTransition: Bool) {
+        let xPoint = xPosition(for: toView)
+        let yPoint = yPosition(for: toView)
         toView?.transform = .identity
         guard reverseTransition else {
-            fromView?.transform = CGAffineTransform(translationX: xPoint * xDelta, y: yPoint * yDelta)
+            fromView?.transform = CGAffineTransform(translationX: -xPoint * xDelta, y: -yPoint * yDelta)
             return }
         fromView?.transform = CGAffineTransform(translationX: xPoint, y: yPoint)
         
     }
     
-    func completeTransition(fromView: UIView?, toView: UIView?) {
+    public func completeTransition(fromView: UIView?, toView: UIView?) {
         fromView?.transform = .identity
         toView?.transform = .identity
     }
     
     // MARK: - Private -
     
-    private func xPosition(for view: UIView?, reverseTransition: Bool) -> CGFloat {
+    private func xPosition(for view: UIView?) -> CGFloat {
         guard let view = view else { return 0 }
         switch transitionDirection {
         case .fromRight:
-            let multiplier: CGFloat = reverseTransition ? -1 : 1
-            return view.frame.size.width * multiplier
+            return view.frame.size.width
         case .fromLeft:
-            let multiplier: CGFloat = reverseTransition ? 1 : -1
-            return view.frame.size.width * multiplier
+            return -view.frame.size.width
         default:
             return 0
         }
     }
     
-    private func yPosition(for view: UIView?, reverseTransition: Bool) -> CGFloat {
+    private func yPosition(for view: UIView?) -> CGFloat {
         guard let view = view else { return 0 }
         switch transitionDirection {
         case .fromTop:

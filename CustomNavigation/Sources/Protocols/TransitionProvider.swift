@@ -8,7 +8,6 @@
 import UIKit
 
 public enum TransitionDirection {
-    case none
     case fromTop
     case fromLeft
     case fromRight
