@@ -33,10 +33,11 @@ open class TransitionManager: NSObject, CustomAnimatedTransitioning {
         guard let fromView = transitionContext.view(forKey: .from) else { return }
         toView.frame = fromView.frame
         reverseTransition == false ? container.addSubview(toView) : container.insertSubview(toView, belowSubview: fromView)
-        transitionProvider.prepareForAnimation(fromView: fromView, toView: toView)
+        transitionProvider.prepareForAnimation(fromView: fromView, toView: toView, reverseTransition: reverseTransition)
         let animator = animatorProvider.animator()
         animator.addAnimations { [weak self] in
-            self?.transitionProvider.performAnimation(fromView: fromView, toView: toView)
+            guard let strongSelf = self else { return }
+            strongSelf.transitionProvider.performAnimation(fromView: fromView, toView: toView, reverseTransition: strongSelf.reverseTransition)
         }
         animator.addCompletion {  [weak self] (_) in
             self?.animationFinished()
@@ -47,20 +48,6 @@ open class TransitionManager: NSObject, CustomAnimatedTransitioning {
     }
     
     // MARK: - Private -
-    
-    // MARK: - Utils -
-    
-//
-//    private func yPoint(for view: UIView, direction: TransitionDirection) -> CGFloat {
-//        switch direction {
-//        case .fromTop:
-//            return -view.frame.size.height
-//        case .fromBottom:
-//            return view.frame.size.height
-//        default:
-//            return 0
-//        }
-//    }
     
     // MARK: - Animation Preparetion -
 //

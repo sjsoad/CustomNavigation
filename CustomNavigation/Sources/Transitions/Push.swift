@@ -16,19 +16,23 @@ class Push: NSObject, TransitionProvider {
         self.transitionDirection = transitionDirection
     }
     
-    func prepareForAnimation(fromView: UIView?, toView: UIView?) {
+    func prepareForAnimation(fromView: UIView?, toView: UIView?, reverseTransition: Bool) {
+        let xPoint = xPosition(for: toView, reverseTransition: reverseTransition)
+        let yPoint = yPosition(for: toView, reverseTransition: reverseTransition)
         guard reverseTransition else {
-            toView?.transform = CGAffineTransform(translationX: xPosition(for: toView), y: yPosition(for: toView))
+            toView?.transform = CGAffineTransform(translationX: xPoint, y: yPoint)
             return }
-        toView?.transform = CGAffineTransform(translationX: xPosition(for: toView) * xDelta, y: yPosition(for: toView) * yDelta)
+        toView?.transform = CGAffineTransform(translationX: xPoint * xDelta, y: yPoint * yDelta)
     }
     
-    func performAnimation(fromView: UIView?, toView: UIView?) {
+    func performAnimation(fromView: UIView?, toView: UIView?, reverseTransition: Bool) {
+        let xPoint = xPosition(for: toView, reverseTransition: reverseTransition)
+        let yPoint = yPosition(for: toView, reverseTransition: reverseTransition)
         toView?.transform = .identity
         guard reverseTransition else {
-            fromView?.transform = CGAffineTransform(translationX: xPosition(for: fromView) * xDelta, y: yPosition(for: fromView) * yDelta)
+            fromView?.transform = CGAffineTransform(translationX: xPoint * xDelta, y: yPoint * yDelta)
             return }
-        fromView?.transform = CGAffineTransform(translationX: xPosition(for: fromView), y: yPosition(for: fromView))
+        fromView?.transform = CGAffineTransform(translationX: xPoint, y: yPoint)
         
     }
     
@@ -39,7 +43,7 @@ class Push: NSObject, TransitionProvider {
     
     // MARK: - Private -
     
-    private func xPosition(for view: UIView?) -> CGFloat {
+    private func xPosition(for view: UIView?, reverseTransition: Bool) -> CGFloat {
         guard let view = view else { return 0 }
         switch transitionDirection {
         case .fromRight:
@@ -53,7 +57,7 @@ class Push: NSObject, TransitionProvider {
         }
     }
     
-    private func yPosition(for view: UIView?) -> CGFloat {
+    private func yPosition(for view: UIView?, reverseTransition: Bool) -> CGFloat {
         guard let view = view else { return 0 }
         switch transitionDirection {
         case .fromTop:
