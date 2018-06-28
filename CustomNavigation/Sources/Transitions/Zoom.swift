@@ -8,19 +8,28 @@
 
 import UIKit
 
-class Zoom: NSObject, TransitionProvider {
+open class Zoom: BaseTransition {
     
-    func prepareForAnimation(fromView: UIView?, toView: UIView?, reverseTransition: Bool) {
-        
+    override public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
+        guard !reverseTransition else { return }
+        toView?.alpha = 0
+        toView?.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
     }
     
-    func performAnimation(fromView: UIView?, toView: UIView?, reverseTransition: Bool) {
-        
+    override public func performAnimation(fromView: UIView?, toView: UIView?) {
+        guard reverseTransition else {
+            toView?.transform = .identity
+            toView?.alpha = 1
+            return }
+        fromView?.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
+        fromView?.alpha = 0
     }
     
-    func completeTransition(fromView: UIView?, toView: UIView?) {
-        
+    override public func completeTransition(fromView: UIView?, toView: UIView?) {
+        fromView?.alpha = 1
+        fromView?.transform = .identity
+        toView?.alpha = 1
+        toView?.transform = .identity
     }
     
-
 }

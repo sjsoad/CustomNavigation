@@ -12,7 +12,7 @@ pod 'CustomNavigation'
 
 **1. How to create custom animation with CustomNavigation pod**   
 
-For that, you should create new empty file inherited from CustomAnimatedTransitioning, and import module of course.  
+For that, you should create new class inherited from CustomAnimatedTransitioning, and import module of course.  
 Should be something like this:  
 
 `import UIKit`  
@@ -40,6 +40,10 @@ Should be something like this:
 `}`  
 
 **reverseTransition** - false value means that this is 'forward' navigation and vise versa
+
+The other way is to inherit from BaseTransition and override 3 methods from TransitionProvider protocol.  As example you can check files from Transitions folder.  
+Benefit of BaseTransition that it can take AnimatorProvider. You can make your own AnimatorProvider or use 1 of 4 classes that provides initialization with custom values.  
+Create transition(for example Push) and put new AnimatorProvider and you will see how animation will change.  
 
 **2. Custom push and pop navigation**  
 
