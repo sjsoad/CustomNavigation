@@ -57,8 +57,12 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
         }
         animator.addCompletion {  [weak self] (position) in
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
-            guard position == .end else { return }
-            self?.completeTransition(fromView: fromView, toView: toView)
+            switch position {
+            case .end:
+                self?.completeTransition(fromView: fromView, toView: toView)
+            default:
+                self?.prepareForAnimation(fromView: fromView, toView: toView)
+            }
         }
         sessionAnimator = animator
         return animator

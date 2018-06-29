@@ -8,14 +8,15 @@
 
 import UIKit
 
-public protocol InteractiveNavigation {
+public protocol DefaultInteractiveNavigation {
     
-    var isInteractive: Bool { get }
-    func set(interactive: Bool)
+    var isDefaultInteractionEnabled: Bool { get }
+    func set(defaultInteractionEnabled: Bool)
     
 }
 
-open class DefaultNavigationController: UINavigationController, UINavigationControllerDelegate, UIGestureRecognizerDelegate, InteractiveNavigation {
+open class DefaultNavigationController: UINavigationController, UINavigationControllerDelegate, UIGestureRecognizerDelegate,
+DefaultInteractiveNavigation {
     
     open var interactionController: InteractionControlling?
     
@@ -27,13 +28,13 @@ open class DefaultNavigationController: UINavigationController, UINavigationCont
 
     // MARK: - InteractiveNavigation -
     
-    public var isInteractive: Bool {
+    public var isDefaultInteractionEnabled: Bool {
         return interactivePopGestureRecognizer?.isEnabled ?? false
     }
     
-    public func set(interactive: Bool) {
-        interactivePopGestureRecognizer?.isEnabled = interactive
-        interactivePopGestureRecognizer?.delegate = interactive ? self : nil
+    public func set(defaultInteractionEnabled: Bool) {
+        interactivePopGestureRecognizer?.isEnabled = defaultInteractionEnabled
+        interactivePopGestureRecognizer?.delegate = defaultInteractionEnabled ? self : nil
     }
     
     // MARK: - UINavigationControllerDelegate -
@@ -41,7 +42,6 @@ open class DefaultNavigationController: UINavigationController, UINavigationCont
     public func navigationController(_ navigationController: UINavigationController,
                                      interactionControllerFor animationController: UIViewControllerAnimatedTransitioning)
         -> UIViewControllerInteractiveTransitioning? {
-            interactionController?.viewController = navigationController.topViewController
             return interactionController?.interactionInProgress == true ? interactionController : nil
     }
     
