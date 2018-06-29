@@ -8,43 +8,6 @@
 
 import UIKit
 
-public enum xPosition {
-    case left
-    case center
-    case right
-    case custom(x: CGFloat)
-}
-
-public enum yPosition {
-    case top
-    case center
-    case bottom
-    case custom(y: CGFloat)
-}
-
-public struct Position {
-    public var x: xPosition
-    public var y: yPosition
-    
-    public init(x: xPosition, y: yPosition) {
-        self.x = x
-        self.y = y
-    }
-}
-
-public typealias DimmingViewTapEventHandler = ((UITapGestureRecognizer) -> Void)
-
-public protocol PresentationControlling {
-    
-    var position: Position { get set }
-    var percentageOfWidth: CGFloat { get set }
-    var dimmingViewTapEventHandler: DimmingViewTapEventHandler? { get set }
-    func configuredDimmingView() -> UIView?
-    func addDimmingViewToView()
-    func showDimmingView()
-    func hideDimmingView()
-}
-
 open class DefaultPresentationController: UIPresentationController, PresentationControlling {
     
     private lazy var dimmingView: UIView? = { [unowned self] in

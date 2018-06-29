@@ -1,5 +1,5 @@
 //
-//  TransitioningDelegate.swift
+//  DefaultTransitioningDelegate.swift
 //  SKUtils
 //
 //  Created by Sergey Kostyan on 07.06.2018.
@@ -8,35 +8,25 @@
 
 import UIKit
 
-public typealias PresentationControllerProvider = (_ presented: UIViewController, _ presenting: UIViewController?,
-    _ source: UIViewController) -> UIPresentationController?
-
-public protocol TransitioningDelegate: UIViewControllerTransitioningDelegate, AnimationControllerProvider {
-    
-    init(animatedTransitioning: CustomAnimatedTransitioning?, interactionController: UIViewControllerInteractiveTransitioning?,
-         presentationControllerProvider: PresentationControllerProvider?)
-}
-
 open class DefaultTransitioningDelegate: NSObject, TransitioningDelegate {
     
     public var animatedTransitioning: CustomAnimatedTransitioning?
-    public var interactionController: UIViewControllerInteractiveTransitioning?
+    open var interactionController: InteractionControlling?
     public var presentationControllerProvider: PresentationControllerProvider?
     
     public required init(animatedTransitioning: CustomAnimatedTransitioning? = nil,
-                         interactionController: UIViewControllerInteractiveTransitioning? = nil,
+                         interactionController: InteractionControlling? = nil,
                          presentationControllerProvider: PresentationControllerProvider? = nil) {
         self.animatedTransitioning = animatedTransitioning
-        self.interactionController = interactionController
         self.presentationControllerProvider = presentationControllerProvider
     }
     
     // MARK: - UIViewControllerTransitioningDelegate -
     
     open func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactionController
+        return interactionController?.interactionInProgress == true ? interactionController : nil
     }
-
+    
     open func presentationController(forPresented presented: UIViewController, presenting: UIViewController?,
                                        source: UIViewController) -> UIPresentationController? {
         return presentationControllerProvider?(presented, presenting, source)

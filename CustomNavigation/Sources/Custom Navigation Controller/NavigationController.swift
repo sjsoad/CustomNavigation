@@ -17,6 +17,8 @@ public protocol InteractiveNavigation {
 
 open class DefaultNavigationController: UINavigationController, UINavigationControllerDelegate, UIGestureRecognizerDelegate, InteractiveNavigation {
     
+    open var interactionController: InteractionControlling?
+    
     override open func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
@@ -36,8 +38,15 @@ open class DefaultNavigationController: UINavigationController, UINavigationCont
     
     // MARK: - UINavigationControllerDelegate -
     
+    public func navigationController(_ navigationController: UINavigationController,
+                                     interactionControllerFor animationController: UIViewControllerAnimatedTransitioning)
+        -> UIViewControllerInteractiveTransitioning? {
+            interactionController?.viewController = navigationController.topViewController
+            return interactionController?.interactionInProgress == true ? interactionController : nil
+    }
+    
     open func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation,
-                              from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+                                   from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         let sourceVC = operation == .push ? fromVC : toVC
         guard let animationControllerProvider = sourceVC as? AnimationControllerProvider,
         let animatedTransitioning = animationControllerProvider.animatedTransitioning else { return nil }

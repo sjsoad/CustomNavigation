@@ -72,7 +72,7 @@ In this case, you should use DefaultTransitioningDelegate. DefaultTransitioningD
 **animatedTransitioning** - this is your custom animation. This value can be nil, but you won't see any custom animation    
 **interactionController** - any class that conforms to UIViewControllerInteractiveTransitioning. This value can be nil and you won't interact with UIViewController with help of gesture      
 
-You already know how to create animation. As for interactor, you can inherit from UIPercentDrivenInteractiveTransition and write your custom interaction with the controller.  
+You already know how to create animation. As for interactor, you can inherit from UIPercentDrivenInteractiveTransition, InteractionControlling protocol and write your custom interaction with the controller.  
 
 Finally, when you will have your animation and, optionally, interactor, you need to do the following:  
 

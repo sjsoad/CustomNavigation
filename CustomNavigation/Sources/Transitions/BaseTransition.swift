@@ -8,7 +8,9 @@
 import UIKit
 
 open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProvider {
-
+    
+    public private(set) var sessionAnimator: UIViewImplicitlyAnimating?
+    
     public var animatorProvider: AnimatorProvider
     open var reverseTransition: Bool = false
     
@@ -19,8 +21,11 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
     // MARK: - Private -
     
     private func addSubviews(topView: UIView?, bottomView: UIView?, to container: UIView) {
+        topView?.transform = .identity
+        bottomView?.transform = .identity
         if let bottomView = bottomView {
             container.addSubview(bottomView)
+            topView?.frame = bottomView.frame
         }
         if let topView = topView {
             container.addSubview(topView)
@@ -33,7 +38,10 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
         return animatorProvider.duration
     }
     
-    public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+    public func interruptibleAnimator(using transitionContext: UIViewControllerContextTransitioning) -> UIViewImplicitlyAnimating {
+        if let sessionAnimator = sessionAnimator {
+            return sessionAnimator
+        }
         let container = transitionContext.containerView
         let toView = transitionContext.view(forKey: .to)
         let fromView = transitionContext.view(forKey: .from)
@@ -47,12 +55,23 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
         animator.addAnimations { [weak self] in
             self?.performAnimation(fromView: fromView, toView: toView)
         }
-        animator.addCompletion {  [weak self] (_) in
-            self?.animationFinished()
-            self?.completeTransition(fromView: fromView, toView: toView)
+        animator.addCompletion {  [weak self] (position) in
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+            guard position == .end else { return }
+            self?.completeTransition(fromView: fromView, toView: toView)
         }
+        sessionAnimator = animator
+        return animator
+    }
+    
+    public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        let animator = interruptibleAnimator(using: transitionContext)
         animator.startAnimation()
+    }
+    
+    public func animationEnded(_ transitionCompleted: Bool) {
+        animationFinished()
+        sessionAnimator = nil
     }
     
     // MARK: - TransitionProvider -
