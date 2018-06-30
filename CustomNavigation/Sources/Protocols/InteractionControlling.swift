@@ -11,7 +11,6 @@ import Foundation
 
 public protocol InteractionControlling: UIViewControllerInteractiveTransitioning {
 
-    var viewController: UIViewController? { get set }
     var interactionInProgress: Bool { get set }
     
 }
