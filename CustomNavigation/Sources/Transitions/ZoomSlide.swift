@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SKAnimator
 
 open class ZoomSlide: BaseTransition, DirectionalTransitioning {
     

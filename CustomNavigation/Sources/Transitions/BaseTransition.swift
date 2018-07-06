@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SKAnimator
 
 open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProvider {
     
@@ -25,11 +26,24 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
         bottomView?.transform = .identity
         if let bottomView = bottomView {
             container.addSubview(bottomView)
-            topView?.frame = bottomView.frame
         }
         if let topView = topView {
             container.addSubview(topView)
         }
+    }
+    
+    private func fixOrigin(for view: UIView?) {
+        guard let view = view else { return }
+        var newFrame = view.frame
+        newFrame.origin = .zero
+        view.frame = newFrame
+    }
+    
+    private func fixSize(topView: UIView?, bottomView: UIView?) {
+        guard let topView = topView, let bottomView = bottomView else { return }
+        var newFrame = topView.frame
+        newFrame.size = bottomView.frame.size
+        topView.frame = newFrame
     }
     
     // MARK: - UIViewControllerAnimatedTransitioning -
@@ -47,22 +61,30 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
         let fromView = transitionContext.view(forKey: .from)
         if reverseTransition {
             addSubviews(topView: fromView, bottomView: toView, to: container)
+            // fix for modal presented controllers
+            fixSize(topView: fromView, bottomView: toView)
         } else {
             addSubviews(topView: toView, bottomView: fromView, to: container)
+            // fix for modal presented controllers
+            fixSize(topView: toView, bottomView: fromView)
         }
+        // fix, because user can interact with view very fast and not complete the transition, in this case origin of view will
+        // be changed and may cause corruption of animation
+        fixOrigin(for: toView)
         prepareForAnimation(fromView: fromView, toView: toView)
         let animator = animatorProvider.animator()
         animator.addAnimations { [weak self] in
             self?.performAnimation(fromView: fromView, toView: toView)
         }
         animator.addCompletion {  [weak self] (position) in
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             switch position {
             case .end:
+                self?.animationFinished()
                 self?.completeTransition(fromView: fromView, toView: toView)
             default:
                 self?.prepareForAnimation(fromView: fromView, toView: toView)
             }
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
         sessionAnimator = animator
         return animator
@@ -74,7 +96,6 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
     }
     
     public func animationEnded(_ transitionCompleted: Bool) {
-        animationFinished()
         sessionAnimator = nil
     }
     

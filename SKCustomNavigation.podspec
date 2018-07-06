@@ -9,7 +9,7 @@ s.summary = "SKCustomNavigation simplifies work with custom navigation"
 s.requires_arc = true
 
 # 2
-s.version = "0.0.9"
+s.version = "0.1.0"
 
 # 3
 s.license = { :type => "MIT", :file => "LICENSE" }
@@ -29,5 +29,8 @@ s.frameworks = "UIKit"
 
 # 8
 s.source_files = "CustomNavigation/**/*.{swift}"
+
+#10
+s.dependency 'SKAnimator'
 
 end
