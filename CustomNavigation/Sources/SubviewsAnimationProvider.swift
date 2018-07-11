@@ -50,7 +50,7 @@ open class SubviewsAnimationProvider: NSObject {
         }
         fromSnapshots.forEach { container.addSubview($0) }
         fromVC.viewsToAnimate.forEach { $0.isHidden = true }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.000000001) {
+        DispatchQueue.main.async {
             toVC.viewsToAnimate.forEach { $0.isHidden = true }
         }
     }
