@@ -24,9 +24,9 @@ open class SubviewsAnimationProvider: NSObject {
     
     // MARK: - Private -
     
-    func snapshots(from provider: SubviewsForAnimatiedTransitionProvider, afterScreenUpdates: Bool) -> [UIView] {
+    private func snapshots(from provider: SubviewsForAnimatiedTransitionProvider, afterScreenUpdates: Bool) -> [UIView] {
         let snapshots = provider.viewsToAnimate.compactMap { subview -> UIView? in
-            guard let snapshot = subview.snapshotView(afterScreenUpdates: afterScreenUpdates) else { return nil }
+            let snapshot = subview.slowSnapshotView()
             snapshot.frame = container.convert(subview.frame, from: subview.superview)
             return snapshot
         }
@@ -50,9 +50,7 @@ open class SubviewsAnimationProvider: NSObject {
         }
         fromSnapshots.forEach { container.addSubview($0) }
         fromVC.viewsToAnimate.forEach { $0.isHidden = true }
-        DispatchQueue.main.async {
-            toVC.viewsToAnimate.forEach { $0.isHidden = true }
-        }
+        toVC.viewsToAnimate.forEach { $0.isHidden = true }
     }
     
     public func performAnimation() {
@@ -74,6 +72,26 @@ open class SubviewsAnimationProvider: NSObject {
         toSnapshots.forEach   { $0.removeFromSuperview() }
         fromVC.viewsToAnimate.forEach { $0.isHidden = false }
         toVC.viewsToAnimate.forEach { $0.isHidden = false }
+    }
+    
+}
+
+private extension UIView {
+    
+    func slowSnapshotView() -> UIView {
+        UIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque, 0)
+        guard let currentContext = UIGraphicsGetCurrentContext() else {
+            UIGraphicsEndImageContext()
+            return UIView()
+        }
+        layer.render(in: currentContext)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        let imageView = UIImageView(image: image)
+        imageView.frame = bounds
+        return imageView
     }
     
 }
