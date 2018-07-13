@@ -44,17 +44,6 @@ open class SubviewsAnimationProvider: NSObject {
         return subviewIdToDestinationView[subviewId]
     }
     
-    private func pairedView(for view: UIView) -> UIView? {
-        guard let subviewId = view.subviewId else { return nil }
-        if sourceView(for: subviewId) == view {
-            return destinationView(for: subviewId)
-        }
-        if destinationView(for: subviewId) == view {
-            return sourceView(for: subviewId)
-        }
-        return nil
-    }
-    
     private func snapshot(for view: UIView) -> UIView {
         let snapshot = view.slowSnapshotView()
         snapshot.frame = container.convert(view.frame, from: view.superview)
@@ -89,8 +78,7 @@ open class SubviewsAnimationProvider: NSObject {
     public func performAnimation() {
         subviewIdToSourceView.keys.forEach { (subviewId) in
             guard let sourceView = sourceView(for: subviewId), let destinationView = destinationView(for: subviewId) else { return }
-            if let snapshot = snapshotViews[destinationView] {
-                guard let alpha = viewAlphas[destinationView] else { return }
+            if let snapshot = snapshotViews[destinationView], let alpha = viewAlphas[destinationView] {
                 snapshot.frame = destinationView.frame
                 snapshot.alpha = alpha
             }
