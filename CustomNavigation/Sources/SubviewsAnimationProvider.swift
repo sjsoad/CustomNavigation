@@ -9,69 +9,104 @@ import UIKit
 
 open class SubviewsAnimationProvider: NSObject {
 
-    private var fromVC: UIViewController?
-    private var toVC: UIViewController?
-    private var container: UIView
-    private var fromSnapshots: [UIView] = []
-    private var toSnapshots: [UIView] = []
-    private var frames: [(from: CGRect, to: CGRect)] = []
+    private var container: UIView!
+    private var subviewIdToSourceView: [String: UIView] = [:]
+    private var subviewIdToDestinationView: [String: UIView] = [:]
+    private var snapshotViews: [UIView: UIView] = [:]
+    private var viewAlphas: [UIView: CGFloat] = [:]
     
     public init(transitionContext: UIViewControllerContextTransitioning) {
-        fromVC = transitionContext.viewController(forKey: .from)
-        toVC   = transitionContext.viewController(forKey: .to)
+        super.init()
         container = transitionContext.containerView
+        if let sourceVC = transitionContext.viewController(forKey: .from),
+            let destinationVC   = transitionContext.viewController(forKey: .to) {
+            sourceVC.view.layoutIfNeeded()
+            process(views: sourceVC.view.subviews, idMap: &subviewIdToSourceView)
+            process(views: destinationVC.view.subviews, idMap: &subviewIdToDestinationView)
+        }
     }
     
     // MARK: - Private -
     
-    private func snapshots(from provider: SubviewsForAnimatiedTransitionProvider, afterScreenUpdates: Bool) -> [UIView] {
-        let snapshots = provider.viewsToAnimate.compactMap { subview -> UIView? in
-            let snapshot = subview.slowSnapshotView()
-            snapshot.frame = container.convert(subview.frame, from: subview.superview)
-            return snapshot
+    private func process(views: [UIView], idMap: inout [String: UIView]) {
+        for view in views {
+            guard let subviewID = view.subviewId else { return }
+            idMap[subviewID] = view
+            process(views: view.subviews, idMap: &idMap)
         }
-        return snapshots
+    }
+    
+    private func sourceView(for subviewId: String) -> UIView? {
+        return subviewIdToSourceView[subviewId]
+    }
+
+    private func destinationView(for subviewId: String) -> UIView? {
+        return subviewIdToDestinationView[subviewId]
+    }
+    
+    private func pairedView(for view: UIView) -> UIView? {
+        guard let subviewId = view.subviewId else { return nil }
+        if sourceView(for: subviewId) == view {
+            return destinationView(for: subviewId)
+        }
+        if destinationView(for: subviewId) == view {
+            return sourceView(for: subviewId)
+        }
+        return nil
+    }
+    
+    private func snapshot(for view: UIView) -> UIView {
+        let snapshot = view.slowSnapshotView()
+        snapshot.frame = container.convert(view.frame, from: view.superview)
+        viewAlphas[view] = view.alpha
+        snapshotViews[view] = snapshot
+        return snapshot
+    }
+    
+    private func returnOriginalAlpha(for views: [UIView]) {
+        views.forEach { (view) in
+            guard let alpha = viewAlphas[view] else { return }
+            view.alpha = alpha
+        }
     }
     
     // MARK: - Public  -
     
     public func prepareForAnimation() {
-        toVC?.view.layoutIfNeeded()
-        guard let toVC = toVC as? SubviewsForAnimatiedTransitionProvider,
-            let fromVC = fromVC as? SubviewsForAnimatiedTransitionProvider else { return }
-        fromSnapshots = snapshots(from: fromVC, afterScreenUpdates: false)
-        toSnapshots = snapshots(from: toVC, afterScreenUpdates: true)
-        
-        frames = zip(fromSnapshots, toSnapshots).map { (from: $0.frame, to: $1.frame) }
-        zip(toSnapshots, frames).forEach { snapshot, frame in
-            snapshot.frame = frame.from
-            snapshot.alpha = 0
-            container.addSubview(snapshot)
+        subviewIdToSourceView.keys.forEach { (subviewId) in
+            guard let sourceView = sourceView(for: subviewId), let destinationView = destinationView(for: subviewId) else { return }
+            let sourceSnapshot = snapshot(for: sourceView)
+            let destinationSnapshot = snapshot(for: destinationView)
+            destinationSnapshot.frame = sourceView.frame
+            destinationSnapshot.alpha = 0
+            container.addSubview(destinationSnapshot)
+            container.addSubview(sourceSnapshot)
+            sourceView.alpha = 0
+            destinationView.alpha = 0
         }
-        fromSnapshots.forEach { container.addSubview($0) }
-        fromVC.viewsToAnimate.forEach { $0.isHidden = true }
-        toVC.viewsToAnimate.forEach { $0.isHidden = true }
     }
     
     public func performAnimation() {
-        zip(toSnapshots, frames).forEach { snapshot, frame in
-            snapshot.frame = frame.to
-            snapshot.alpha = 1
-        }
-        
-        zip(fromSnapshots, frames).forEach { snapshot, frame in
-            snapshot.frame = frame.to
-            snapshot.alpha = 0
+        subviewIdToSourceView.keys.forEach { (subviewId) in
+            guard let sourceView = sourceView(for: subviewId), let destinationView = destinationView(for: subviewId) else { return }
+            if let snapshot = snapshotViews[destinationView] {
+                guard let alpha = viewAlphas[destinationView] else { return }
+                snapshot.frame = destinationView.frame
+                snapshot.alpha = alpha
+            }
+            if let snapshot = snapshotViews[sourceView] {
+                snapshot.frame = destinationView.frame
+                snapshot.alpha = 0
+            }
         }
     }
     
     public func completeAnimation() {
-        guard let toVC = toVC as? SubviewsForAnimatiedTransitionProvider,
-            let fromVC = fromVC as? SubviewsForAnimatiedTransitionProvider else { return }
-        fromSnapshots.forEach { $0.removeFromSuperview() }
-        toSnapshots.forEach   { $0.removeFromSuperview() }
-        fromVC.viewsToAnimate.forEach { $0.isHidden = false }
-        toVC.viewsToAnimate.forEach { $0.isHidden = false }
+        snapshotViews.values.forEach { (snapshot) in
+            snapshot.removeFromSuperview()
+        }
+        returnOriginalAlpha(for: subviewIdToSourceView.values.compactMap({ $0 }))
+        returnOriginalAlpha(for: subviewIdToDestinationView.values.compactMap({ $0 }))
     }
     
 }
