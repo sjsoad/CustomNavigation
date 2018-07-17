@@ -30,9 +30,9 @@ open class SubviewsAnimationProvider: NSObject {
     
     private func process(views: [UIView], idMap: inout [String: UIView]) {
         for view in views {
+            process(views: view.subviews, idMap: &idMap)
             guard let subviewID = view.subviewId else { return }
             idMap[subviewID] = view
-            process(views: view.subviews, idMap: &idMap)
         }
     }
     
