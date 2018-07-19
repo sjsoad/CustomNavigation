@@ -8,12 +8,13 @@
 import UIKit
 
 open class SubviewsAnimationProvider: NSObject {
-
+    
     private var container: UIView!
     private var subviewIdToSourceView: [String: UIView] = [:]
     private var subviewIdToDestinationView: [String: UIView] = [:]
     private var snapshotViews: [UIView: UIView] = [:]
-    private var viewAlphas: [UIView: CGFloat] = [:]
+    private var viewsAlpha: [UIView: CGFloat] = [:]
+    private var viewsRect: [UIView: CGRect] = [:]
     
     public init(transitionContext: UIViewControllerContextTransitioning) {
         super.init()
@@ -40,7 +41,7 @@ open class SubviewsAnimationProvider: NSObject {
     private func sourceView(for subviewId: String) -> UIView? {
         return subviewIdToSourceView[subviewId]
     }
-
+    
     private func destinationView(for subviewId: String) -> UIView? {
         return subviewIdToDestinationView[subviewId]
     }
@@ -48,15 +49,36 @@ open class SubviewsAnimationProvider: NSObject {
     private func snapshot(for view: UIView) -> UIView {
         let snapshot = view.slowSnapshotView()
         snapshot.frame = container.convert(view.frame, from: view.superview)
-        viewAlphas[view] = view.alpha
+        viewsAlpha[view] = view.alpha
         snapshotViews[view] = snapshot
+        viewsRect[view] = snapshot.frame
         return snapshot
     }
     
     private func returnOriginalAlpha(for views: [UIView]) {
         views.forEach { (view) in
-            guard let alpha = viewAlphas[view] else { return }
+            guard let alpha = viewsAlpha[view] else { return }
             view.alpha = alpha
+        }
+    }
+    
+    private func applyAlpha(of source: UIView, to snapshot: UIView) {
+        guard let alpha = viewsAlpha[source] else { return }
+        snapshot.alpha = alpha
+    }
+    
+    private func hide(_ view: UIView) {
+        view.alpha = 0
+    }
+    
+    private func applyFrame(of source: UIView, to snapshot: UIView) {
+        guard let frame = viewsRect[source] else { return }
+        snapshot.frame = frame
+    }
+    
+    private func removeSnapshots() {
+        snapshotViews.values.forEach { (snapshot) in
+            snapshot.removeFromSuperview()
         }
     }
     
@@ -67,34 +89,31 @@ open class SubviewsAnimationProvider: NSObject {
             guard let sourceView = sourceView(for: subviewId), let destinationView = destinationView(for: subviewId) else { return }
             let sourceSnapshot = snapshot(for: sourceView)
             let destinationSnapshot = snapshot(for: destinationView)
-            destinationSnapshot.frame = sourceSnapshot.frame
-            destinationSnapshot.alpha = 0
+            applyFrame(of: sourceView, to: destinationSnapshot)
+            hide(destinationSnapshot)
             container.addSubview(destinationSnapshot)
             container.addSubview(sourceSnapshot)
-            sourceView.alpha = 0
-            destinationView.alpha = 0
+            hide(sourceView)
+            hide(destinationView)
         }
     }
     
     public func performAnimation() {
         subviewIdToSourceView.keys.forEach { (subviewId) in
             guard let sourceView = sourceView(for: subviewId), let destinationView = destinationView(for: subviewId) else { return }
-            if let destinationSnapshot = snapshotViews[destinationView], let alpha = viewAlphas[destinationView] {
-                let frame = container.convert(destinationView.frame, from: destinationView.superview)
-                destinationSnapshot.frame = frame
-                destinationSnapshot.alpha = alpha
+            if let destinationSnapshot = snapshotViews[destinationView]  {
+                applyFrame(of: destinationView, to: destinationSnapshot)
+                applyAlpha(of: destinationView, to: destinationSnapshot)
                 if let sourceSnapshot = snapshotViews[sourceView] {
-                    sourceSnapshot.frame = frame
-                    sourceSnapshot.alpha = 0
+                    applyFrame(of: destinationView, to: sourceSnapshot)
+                    hide(sourceSnapshot)
                 }
             }
         }
     }
     
     public func completeAnimation() {
-        snapshotViews.values.forEach { (snapshot) in
-            snapshot.removeFromSuperview()
-        }
+        removeSnapshots()
         returnOriginalAlpha(for: subviewIdToSourceView.values.compactMap({ $0 }))
         returnOriginalAlpha(for: subviewIdToDestinationView.values.compactMap({ $0 }))
     }
