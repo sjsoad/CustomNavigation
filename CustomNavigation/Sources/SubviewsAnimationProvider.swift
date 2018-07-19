@@ -30,9 +30,10 @@ open class SubviewsAnimationProvider: NSObject {
     
     private func process(views: [UIView], idMap: inout [String: UIView]) {
         for view in views {
+            if let subviewID = view.subviewId {
+                idMap[subviewID] = view
+            }
             process(views: view.subviews, idMap: &idMap)
-            guard let subviewID = view.subviewId else { return }
-            idMap[subviewID] = view
         }
     }
     
@@ -46,7 +47,8 @@ open class SubviewsAnimationProvider: NSObject {
     
     private func snapshot(for view: UIView) -> UIView {
         let snapshot = view.slowSnapshotView()
-        snapshot.frame = container.convert(view.frame, from: view.superview)
+        let convertedFrame = container.convert(view.frame, from: view.superview)
+        snapshot.frame = convertedFrame
         viewAlphas[view] = view.alpha
         snapshotViews[view] = snapshot
         return snapshot
@@ -66,7 +68,7 @@ open class SubviewsAnimationProvider: NSObject {
             guard let sourceView = sourceView(for: subviewId), let destinationView = destinationView(for: subviewId) else { return }
             let sourceSnapshot = snapshot(for: sourceView)
             let destinationSnapshot = snapshot(for: destinationView)
-            destinationSnapshot.frame = sourceView.frame
+//            destinationSnapshot.frame = sourceSnapshot.frame
             destinationSnapshot.alpha = 0
             container.addSubview(destinationSnapshot)
             container.addSubview(sourceSnapshot)
@@ -78,13 +80,13 @@ open class SubviewsAnimationProvider: NSObject {
     public func performAnimation() {
         subviewIdToSourceView.keys.forEach { (subviewId) in
             guard let sourceView = sourceView(for: subviewId), let destinationView = destinationView(for: subviewId) else { return }
-            if let snapshot = snapshotViews[destinationView], let alpha = viewAlphas[destinationView] {
-                snapshot.frame = destinationView.frame
-                snapshot.alpha = alpha
-            }
-            if let snapshot = snapshotViews[sourceView] {
-                snapshot.frame = destinationView.frame
-                snapshot.alpha = 0
+            if let destinationSnapshot = snapshotViews[destinationView], let alpha = viewAlphas[destinationView] {
+//                snapshot.frame = destinationView.frame
+                destinationSnapshot.alpha = alpha
+                if let sourceSnapshot = snapshotViews[sourceView] {
+                    sourceSnapshot.frame = destinationSnapshot.frame
+                    sourceSnapshot.alpha = 0
+                }
             }
         }
     }
