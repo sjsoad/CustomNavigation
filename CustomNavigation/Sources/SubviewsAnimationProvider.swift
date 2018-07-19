@@ -47,8 +47,7 @@ open class SubviewsAnimationProvider: NSObject {
     
     private func snapshot(for view: UIView) -> UIView {
         let snapshot = view.slowSnapshotView()
-        let convertedFrame = container.convert(view.frame, from: view.superview)
-        snapshot.frame = convertedFrame
+        snapshot.frame = container.convert(view.frame, from: view.superview)
         viewAlphas[view] = view.alpha
         snapshotViews[view] = snapshot
         return snapshot
@@ -68,7 +67,7 @@ open class SubviewsAnimationProvider: NSObject {
             guard let sourceView = sourceView(for: subviewId), let destinationView = destinationView(for: subviewId) else { return }
             let sourceSnapshot = snapshot(for: sourceView)
             let destinationSnapshot = snapshot(for: destinationView)
-//            destinationSnapshot.frame = sourceSnapshot.frame
+            destinationSnapshot.frame = sourceSnapshot.frame
             destinationSnapshot.alpha = 0
             container.addSubview(destinationSnapshot)
             container.addSubview(sourceSnapshot)
@@ -81,10 +80,11 @@ open class SubviewsAnimationProvider: NSObject {
         subviewIdToSourceView.keys.forEach { (subviewId) in
             guard let sourceView = sourceView(for: subviewId), let destinationView = destinationView(for: subviewId) else { return }
             if let destinationSnapshot = snapshotViews[destinationView], let alpha = viewAlphas[destinationView] {
-//                snapshot.frame = destinationView.frame
+                let frame = container.convert(destinationView.frame, from: destinationView.superview)
+                destinationSnapshot.frame = frame
                 destinationSnapshot.alpha = alpha
                 if let sourceSnapshot = snapshotViews[sourceView] {
-                    sourceSnapshot.frame = destinationSnapshot.frame
+                    sourceSnapshot.frame = frame
                     sourceSnapshot.alpha = 0
                 }
             }
