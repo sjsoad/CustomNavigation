@@ -123,7 +123,7 @@ open class SubviewsAnimationProvider: NSObject {
 private extension UIView {
     
     func slowSnapshotView() -> UIView {
-        UIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque, 0)
+        UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
         guard let currentContext = UIGraphicsGetCurrentContext() else {
             UIGraphicsEndImageContext()
             return UIView()
