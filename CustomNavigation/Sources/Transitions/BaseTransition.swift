@@ -59,7 +59,6 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
         let container = transitionContext.containerView
         let toView = transitionContext.view(forKey: .to)
         let fromView = transitionContext.view(forKey: .from)
-        let subviewsAnimationProvider = SubviewsAnimationProvider(transitionContext: transitionContext)
         if reverseTransition {
             addSubviews(topView: fromView, bottomView: toView, to: container)
             // fix for modal presented controllers
@@ -69,10 +68,11 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
             // fix for modal presented controllers
             fixSize(topView: toView, bottomView: fromView)
         }
-        subviewsAnimationProvider.prepareForAnimation()
         // fix, because user can interact with view very fast and not complete the transition, in this case origin of view will
         // be changed and may cause corruption of animation
         fixOrigin(for: toView)
+        let subviewsAnimationProvider = SubviewsAnimationProvider(transitionContext: transitionContext)
+        subviewsAnimationProvider.prepareForAnimation()
         prepareForAnimation(fromView: fromView, toView: toView)
         let animator = animatorProvider.animator()
         animator.addAnimations { [weak self] in

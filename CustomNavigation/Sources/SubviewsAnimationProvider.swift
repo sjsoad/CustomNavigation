@@ -20,8 +20,9 @@ open class SubviewsAnimationProvider: NSObject {
         super.init()
         container = transitionContext.containerView
         if let sourceVC = transitionContext.viewController(forKey: .from),
-            let destinationVC   = transitionContext.viewController(forKey: .to) {
-            sourceVC.view.layoutIfNeeded()
+            let destinationVC   = transitionContext.viewController(forKey: .to),
+            ((sourceVC.subviewsAnimationEnabled && destinationVC.subviewsAnimationEnabled) ||
+                (sourceVC.view.subviewsAnimationEnabled && destinationVC.view.subviewsAnimationEnabled)) {
             process(views: sourceVC.view.subviews, idMap: &subviewIdToSourceView)
             process(views: destinationVC.view.subviews, idMap: &subviewIdToDestinationView)
         }
