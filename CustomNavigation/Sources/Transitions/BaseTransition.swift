@@ -32,20 +32,6 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
         }
     }
     
-    private func fixOrigin(for view: UIView?) {
-        guard let view = view else { return }
-        var newFrame = view.frame
-        newFrame.origin = .zero
-        view.frame = newFrame
-    }
-    
-    private func fixSize(topView: UIView?, bottomView: UIView?) {
-        guard let topView = topView, let bottomView = bottomView else { return }
-        var newFrame = topView.frame
-        newFrame.size = bottomView.frame.size
-        topView.frame = newFrame
-    }
-    
     // MARK: - UIViewControllerAnimatedTransitioning -
     
     public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -59,36 +45,37 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
         let container = transitionContext.containerView
         let toView = transitionContext.view(forKey: .to)
         let fromView = transitionContext.view(forKey: .from)
+        let toViewController = transitionContext.viewController(forKey: .to)
+        if let toViewController = toViewController {
+            toView?.frame = transitionContext.finalFrame(for: toViewController)
+        }
         if reverseTransition {
             addSubviews(topView: fromView, bottomView: toView, to: container)
-            // fix for modal presented controllers
-            fixSize(topView: fromView, bottomView: toView)
         } else {
             addSubviews(topView: toView, bottomView: fromView, to: container)
-            // fix for modal presented controllers
-            fixSize(topView: toView, bottomView: fromView)
         }
-        // fix, because user can interact with view very fast and not complete the transition, in this case origin of view will
-        // be changed and may cause corruption of animation
-        fixOrigin(for: toView)
         let subviewsAnimationProvider = SubviewsAnimationProvider(transitionContext: transitionContext)
         subviewsAnimationProvider.prepareForAnimation()
         prepareForAnimation(fromView: fromView, toView: toView)
         let animator = animatorProvider.animator()
         animator.addAnimations { [weak self] in
             subviewsAnimationProvider.performAnimation()
+            toViewController?.navigationController
             self?.performAnimation(fromView: fromView, toView: toView)
         }
         animator.addCompletion {  [weak self] (position) in
             switch position {
             case .end:
-                self?.animationFinished()
                 subviewsAnimationProvider.completeAnimation()
                 self?.completeTransition(fromView: fromView, toView: toView)
+                self?.animationFinished()
+                transitionContext.finishInteractiveTransition()
             default:
                 subviewsAnimationProvider.prepareForAnimation()
                 self?.prepareForAnimation(fromView: fromView, toView: toView)
+                transitionContext.cancelInteractiveTransition()
             }
+            
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
         sessionAnimator = animator
