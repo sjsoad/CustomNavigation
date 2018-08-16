@@ -9,6 +9,5 @@ import UIKit
 
 public protocol TransitioningDelegate: UIViewControllerTransitioningDelegate, AnimationControllerProvider {
     
-    init(animatedTransitioning: CustomAnimatedTransitioning?, interactionController: InteractionControlling?,
-         presentationControllerProvider: PresentationControllerProvider?)
+    init(animatedTransitioning: CustomAnimatedTransitioning?, presentationControllerProvider: PresentationControllerProvider?)
 }

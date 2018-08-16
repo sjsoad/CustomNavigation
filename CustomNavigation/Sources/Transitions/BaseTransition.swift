@@ -10,13 +10,15 @@ import SKAnimator
 
 open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProvider {
     
-    public private(set) var sessionAnimator: UIViewImplicitlyAnimating?
-    
-    public var animatorProvider: AnimatorProvider
+    open var interactionController: InteractionControlling?
     open var reverseTransition: Bool = false
     
-    public init(animatorProvider: AnimatorProvider = DefaultAnimatorProvider()) {
+    public private(set) var sessionAnimator: UIViewImplicitlyAnimating?
+    public var animatorProvider: AnimatorProvider
+    
+    public init(animatorProvider: AnimatorProvider = DefaultAnimatorProvider(), interactionController: InteractionControlling? = nil) {
         self.animatorProvider = animatorProvider
+        self.interactionController = interactionController
     }
     
     // MARK: - Private -
@@ -42,7 +44,6 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
         if let sessionAnimator = sessionAnimator {
             return sessionAnimator
         }
-        let container = transitionContext.containerView
         let toView = transitionContext.view(forKey: .to)
         let fromView = transitionContext.view(forKey: .from)
         let toViewController = transitionContext.viewController(forKey: .to)
@@ -50,9 +51,9 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
             toView?.frame = transitionContext.finalFrame(for: toViewController)
         }
         if reverseTransition {
-            addSubviews(topView: fromView, bottomView: toView, to: container)
+            addSubviews(topView: fromView, bottomView: toView, to: transitionContext.containerView)
         } else {
-            addSubviews(topView: toView, bottomView: fromView, to: container)
+            addSubviews(topView: toView, bottomView: fromView, to: transitionContext.containerView)
         }
         let subviewsAnimationProvider = SubviewsAnimationProvider(transitionContext: transitionContext)
         subviewsAnimationProvider.prepareForAnimation()
@@ -60,7 +61,6 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
         let animator = animatorProvider.animator()
         animator.addAnimations { [weak self] in
             subviewsAnimationProvider.performAnimation()
-            toViewController?.navigationController
             self?.performAnimation(fromView: fromView, toView: toView)
         }
         animator.addCompletion {  [weak self] (position) in
@@ -70,13 +70,13 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
                 self?.completeTransition(fromView: fromView, toView: toView)
                 self?.animationFinished()
                 transitionContext.finishInteractiveTransition()
+                transitionContext.completeTransition(true)
             default:
                 subviewsAnimationProvider.prepareForAnimation()
                 self?.prepareForAnimation(fromView: fromView, toView: toView)
                 transitionContext.cancelInteractiveTransition()
+                transitionContext.completeTransition(false)
             }
-            
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
         sessionAnimator = animator
         return animator

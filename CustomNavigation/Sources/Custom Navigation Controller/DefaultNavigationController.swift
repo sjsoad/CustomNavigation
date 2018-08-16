@@ -8,17 +8,10 @@
 
 import UIKit
 
-public protocol DefaultInteractiveNavigation {
-    
-    var isDefaultInteractionEnabled: Bool { get }
-    func set(defaultInteractionEnabled: Bool)
-    
-}
-
 open class DefaultNavigationController: UINavigationController, UINavigationControllerDelegate, UIGestureRecognizerDelegate,
 DefaultInteractiveNavigation {
     
-    open var interactionController: InteractionControlling?
+    public private(set) var interactionController: InteractionControlling?
     
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +44,7 @@ DefaultInteractiveNavigation {
         guard let animationControllerProvider = sourceVC as? AnimationControllerProvider,
         let animatedTransitioning = animationControllerProvider.animatedTransitioning else { return nil }
         animatedTransitioning.reverseTransition = operation != .push
+        interactionController = animatedTransitioning.interactionController
         return animatedTransitioning
     }
     
