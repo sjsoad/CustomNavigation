@@ -9,14 +9,7 @@
 import UIKit
 import SKAnimator
 
-open class Slide: BaseTransition, DirectionalTransitioning {
-    
-    public private(set) var transitionDirection: TransitionDirection = .fromTop
-    
-    public init(transitionDirection: TransitionDirection = .fromTop, animatorProvider: AnimatorProvider = DefaultAnimatorProvider()) {
-        super.init(animatorProvider: animatorProvider)
-        self.transitionDirection = transitionDirection
-    }
+open class Slide: DirectionalTransition {
     
     override public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
         let xPoint = xPosition(for: toView)

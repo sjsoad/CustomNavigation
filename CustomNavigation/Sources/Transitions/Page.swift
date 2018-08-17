@@ -9,16 +9,14 @@
 import UIKit
 import SKAnimator
 
-open class Page: BaseTransition, DirectionalTransitioning {
+open class Page: DirectionalTransition {
 
-    public private(set) var transitionDirection: TransitionDirection = .fromRight
-    public private(set) var scale: CGFloat = 0.8
+    public private(set) var scale: CGFloat
     
-    public init(transitionDirection: TransitionDirection = .fromRight, scale: CGFloat = 0.8,
-                animatorProvider: AnimatorProvider = DefaultAnimatorProvider()) {
-        super.init(animatorProvider: animatorProvider)
-        self.transitionDirection = transitionDirection
+    public init(scale: CGFloat = 0.8, transitionDirection: TransitionDirection = .fromRight,
+                animatorProvider: AnimatorProvider = DefaultAnimatorProvider(), interactionController: InteractionControlling? = nil) {
         self.scale = scale
+        super.init(transitionDirection: transitionDirection, animatorProvider: animatorProvider, interactionController: interactionController)
     }
     
     override public func prepareForAnimation(fromView: UIView?, toView: UIView?) {

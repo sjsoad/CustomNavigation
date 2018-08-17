@@ -11,7 +11,17 @@ import UIKit
 open class DefaultNavigationController: UINavigationController, UINavigationControllerDelegate, UIGestureRecognizerDelegate,
 DefaultInteractiveNavigation {
     
-    public private(set) var interactionController: InteractionControlling?
+    public private(set) var interactionController: InteractionControlling? {
+        didSet {
+            // TODO: - fix interaction controllers for different top viewControllers -
+            print(interactionController ?? "no interactionController")
+            print(oldValue ?? "no oldValue")
+            interactionController?.activate()
+            guard (oldValue === interactionController) == false else {
+                return }
+            oldValue?.deactivate()
+        }
+    }
     
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -40,17 +50,20 @@ DefaultInteractiveNavigation {
     
     open func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation,
                                    from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        let sourceVC = operation == .push ? fromVC : toVC
-        guard let animationControllerProvider = sourceVC as? AnimationControllerProvider,
-        let animatedTransitioning = animationControllerProvider.animatedTransitioning else { return nil }
-        animatedTransitioning.reverseTransition = operation != .push
-        interactionController = animatedTransitioning.interactionController
+        var animationControllerProvider = toVC as? AnimationControllerProvider
+        if operation == .push {
+           animationControllerProvider = fromVC as? AnimationControllerProvider
+        }
+        let animatedTransitioning = animationControllerProvider?.animatedTransitioning
+        animatedTransitioning?.reverseTransition = operation != .push
+        interactionController = animatedTransitioning?.interactionController
         return animatedTransitioning
     }
     
     // MARK: - UIGestureRecognizerDelegate -
     
-    open func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    open func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                                shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     

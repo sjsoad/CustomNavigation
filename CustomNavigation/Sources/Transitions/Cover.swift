@@ -9,14 +9,7 @@
 import UIKit
 import SKAnimator
 
-open class Cover: BaseTransition, DirectionalTransitioning {
-    
-    public private(set) var transitionDirection: TransitionDirection = .fromBottom
-    
-    public init(transitionDirection: TransitionDirection = .fromBottom, animatorProvider: AnimatorProvider = DefaultAnimatorProvider()) {
-        super.init(animatorProvider: animatorProvider)
-        self.transitionDirection = transitionDirection
-    }
+open class Cover: DirectionalTransition {
     
     override public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
         let xPoint = xPosition(for: toView)

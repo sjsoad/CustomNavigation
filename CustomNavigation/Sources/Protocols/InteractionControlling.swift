@@ -6,11 +6,13 @@
 //
 //
 
-import UIKit
 import Foundation
 
 public protocol InteractionControlling: UIViewControllerInteractiveTransitioning {
 
     var interactionInProgress: Bool { get set }
+    var interactionDelegate: InteractionControllingDelegate? { get set }
     
+    func activate()
+    func deactivate()
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2018 Sergey Kostyan. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 public protocol AnimationControllerProvider {
     
