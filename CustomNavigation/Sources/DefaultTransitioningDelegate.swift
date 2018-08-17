@@ -12,17 +12,20 @@ open class DefaultTransitioningDelegate: NSObject, TransitioningDelegate {
     
     public var animatedTransitioning: CustomAnimatedTransitioning?
     public var presentationControllerProvider: PresentationControllerProvider?
+    public var interactionController: InteractionControlling?
     
     public required init(animatedTransitioning: CustomAnimatedTransitioning? = nil,
-                         presentationControllerProvider: PresentationControllerProvider? = nil) {
+                         presentationControllerProvider: PresentationControllerProvider? = nil,
+                         interactionController: InteractionControlling? = nil) {
         self.animatedTransitioning = animatedTransitioning
         self.presentationControllerProvider = presentationControllerProvider
+        self.interactionController = interactionController
+        interactionController?.interactionDelegate = animatedTransitioning
     }
     
     // MARK: - UIViewControllerTransitioningDelegate -
     
     open func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        let interactionController = animatedTransitioning?.interactionController
         return interactionController?.interactionInProgress == true ? interactionController : nil
     }
     

@@ -8,20 +8,16 @@
 import UIKit
 import SKAnimator
 
-open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProvider, InteractionControllingDelegate {
+open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProvider {
     
-    public private(set) var interactionController: InteractionControlling?
     public private(set) var sessionAnimator: UIViewImplicitlyAnimating?
     public private(set) var context: UIViewControllerContextTransitioning?
     open var reverseTransition: Bool = false
     
     public var animatorProvider: AnimatorProvider
     
-    public init(animatorProvider: AnimatorProvider = DefaultAnimatorProvider(), interactionController: InteractionControlling? = nil) {
+    public init(animatorProvider: AnimatorProvider = DefaultAnimatorProvider()) {
         self.animatorProvider = animatorProvider
-        self.interactionController = interactionController
-        super.init()
-        interactionController?.interactionDelegate = self
     }
     
     // MARK: - Private -

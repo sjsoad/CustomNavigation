@@ -12,10 +12,9 @@ open class DirectionalTransition: BaseTransition {
 
     public private(set) var transitionDirection: TransitionDirection
     
-    public init(transitionDirection: TransitionDirection = .fromRight, animatorProvider: AnimatorProvider = DefaultAnimatorProvider(),
-                interactionController: InteractionControlling? = nil) {
+    public init(transitionDirection: TransitionDirection = .fromRight, animatorProvider: AnimatorProvider = DefaultAnimatorProvider()) {
         self.transitionDirection = transitionDirection
-        super.init(animatorProvider: animatorProvider, interactionController: interactionController)
+        super.init(animatorProvider: animatorProvider)
     }
 
     public func xPosition(for view: UIView?) -> CGFloat {

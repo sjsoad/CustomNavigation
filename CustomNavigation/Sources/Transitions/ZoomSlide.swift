@@ -14,9 +14,9 @@ open class ZoomSlide: DirectionalTransition {
     public private(set) var scale: CGFloat
     
     public init(scale: CGFloat = 0.8, transitionDirection: TransitionDirection = .fromTop,
-                animatorProvider: AnimatorProvider = DefaultAnimatorProvider(), interactionController: InteractionControlling? = nil) {
+                animatorProvider: AnimatorProvider = DefaultAnimatorProvider()) {
         self.scale = scale
-        super.init(transitionDirection: transitionDirection, animatorProvider: animatorProvider, interactionController: interactionController)
+        super.init(transitionDirection: transitionDirection, animatorProvider: animatorProvider)
     }
     
     override public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
