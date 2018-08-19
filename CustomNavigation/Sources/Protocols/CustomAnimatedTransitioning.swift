@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol CustomAnimatedTransitioning: UIViewControllerAnimatedTransitioning, InteractionControllingDelegate {
+public protocol CustomAnimatedTransitioning: UIViewControllerAnimatedTransitioning, TransitionProvider, InteractionControllingDelegate {
     
     var reverseTransition: Bool { get set }
     
