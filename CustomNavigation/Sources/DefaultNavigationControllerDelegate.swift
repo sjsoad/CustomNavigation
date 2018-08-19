@@ -1,20 +1,18 @@
 //
-//  NavigationController.swift
-//  SKUtils
+//  DefaultNavigationControllerDelegate.swift
+//  SKCustomNavigation
 //
-//  Created by Sergey on 07.06.2018.
-//  Copyright © 2018 Sergey Kostyan. All rights reserved.
+//  Created by Sergey Kostyan on 19.08.2018.
 //
 
 import UIKit
 
-open class DefaultNavigationController: UINavigationController, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
+open class DefaultNavigationControllerDelegate: NSObject, UINavigationControllerDelegate {
     
     open var interactionController: InteractionControlling?
     
-    override open func viewDidLoad() {
-        super.viewDidLoad()
-        delegate = self
+    public init(with interactionController: InteractionControlling? = nil) {
+        self.interactionController = interactionController
     }
     
     // MARK: - UINavigationControllerDelegate -
@@ -25,21 +23,15 @@ open class DefaultNavigationController: UINavigationController, UINavigationCont
             return interactionController?.interactionInProgress == true ? interactionController : nil
     }
     
-    open func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation,
-                                   from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    public func navigationController(_ navigationController: UINavigationController,
+                                     animationControllerFor operation: UINavigationControllerOperation,
+                                     from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         let sourceVC = operation == .push ? fromVC : toVC
         var animationControllerProvider = sourceVC as? AnimationControllerProvider
         let animatedTransitioning = animationControllerProvider?.animatedTransitioning
         animatedTransitioning?.reverseTransition = operation != .push
         interactionController?.interactionDelegate = animatedTransitioning
         return animatedTransitioning
-    }
-    
-    // MARK: - UIGestureRecognizerDelegate -
-    
-    open func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
-                                shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
     }
     
 }

@@ -22,21 +22,14 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
     
     // MARK: - Private -
     
-    private func addSubviews(topView: UIView?, bottomView: UIView?, to container: UIView) {
-        topView?.transform = .identity
-        bottomView?.transform = .identity
-        if let bottomView = bottomView {
-            container.addSubview(bottomView)
-        }
-        if let topView = topView {
-            container.addSubview(topView)
-        }
+    private func durationFactor(for propertyAnimator: UIViewPropertyAnimator) -> CGFloat {
+        let animationDuration = CGFloat(propertyAnimator.duration)
+        return animationDuration - animationDuration * propertyAnimator.fractionComplete
     }
     
     private func continueAnimation() {
         guard let propertyAnimator = sessionAnimator as? UIViewPropertyAnimator else { return }
-        let animationDuration = CGFloat(propertyAnimator.duration)
-        let durationFactor = animationDuration - animationDuration * propertyAnimator.fractionComplete
+        let durationFactor = self.durationFactor(for: propertyAnimator)
         propertyAnimator.continueAnimation(withTimingParameters: propertyAnimator.timingParameters, durationFactor: durationFactor)
     }
     
@@ -50,37 +43,32 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning, TransitionProv
         context = transitionContext
         guard let animator = sessionAnimator else {
             let animator = animatorProvider.animator()
-            let toView = transitionContext.view(forKey: .to)
-            let fromView = transitionContext.view(forKey: .from)
-            let toViewController = transitionContext.viewController(forKey: .to)
-            if let toViewController = toViewController {
-                toView?.frame = transitionContext.finalFrame(for: toViewController)
-            }
-            if reverseTransition {
-                addSubviews(topView: fromView, bottomView: toView, to: transitionContext.containerView)
-            } else {
-                addSubviews(topView: toView, bottomView: fromView, to: transitionContext.containerView)
-            }
-            let subviewsAnimationProvider = SubviewsAnimationProvider(transitionContext: transitionContext)
-            subviewsAnimationProvider.prepareForAnimation()
-            prepareForAnimation(fromView: fromView, toView: toView)
-            animator.addAnimations { [weak self] in
-                subviewsAnimationProvider.performAnimation()
-                self?.performAnimation(fromView: fromView, toView: toView)
-            }
-            animator.addCompletion {  [weak self] (position) in
-                switch position {
-                case .end:
-                    transitionContext.finishInteractiveTransition()
-                    transitionContext.completeTransition(true)
-                default:
-                    transitionContext.cancelInteractiveTransition()
-                    transitionContext.completeTransition(false)
+            if let toView = transitionContext.view(forKey: .to) {
+                let fromView = transitionContext.view(forKey: .from)
+                if reverseTransition {
+                    transitionContext.containerView.insertSubview(toView, at: 0)
+                } else {
+                    transitionContext.containerView.addSubview(toView)
                 }
-                subviewsAnimationProvider.completeAnimation()
-                self?.completeTransition(fromView: fromView, toView: toView)
+                let subviewsAnimationProvider = SubviewsAnimationProvider(transitionContext: transitionContext)
+                subviewsAnimationProvider.prepareForAnimation()
+                prepareForAnimation(fromView: fromView, toView: toView)
+                animator.addAnimations { [weak self] in
+                    subviewsAnimationProvider.performAnimation()
+                    self?.performAnimation(fromView: fromView, toView: toView)
+                }
+                animator.addCompletion {  [weak self] (position) in
+                    if position == .end {
+                        transitionContext.finishInteractiveTransition()
+                    } else {
+                        transitionContext.cancelInteractiveTransition()
+                    }
+                    transitionContext.completeTransition(position == .end)
+                    subviewsAnimationProvider.completeAnimation()
+                    self?.completeTransition(fromView: fromView, toView: toView)
+                }
+                sessionAnimator = animator
             }
-            sessionAnimator = animator
             return animator
         }
         return animator
