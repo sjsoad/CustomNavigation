@@ -27,24 +27,11 @@ public extension InteractionControllingDelegate {
     
     public func interactionDidCanceled() {
         sessionAnimator?.isReversed = true
-        continueAnimation()
+        sessionAnimator?.continueAnimation()
     }
     
     public func interactionDidEnded() {
-        continueAnimation()
-    }
-    
-    // MARK: - Private -
-    
-    private func durationFactor(for propertyAnimator: UIViewPropertyAnimator) -> CGFloat {
-        let animationDuration = CGFloat(propertyAnimator.duration)
-        return animationDuration - animationDuration * propertyAnimator.fractionComplete
-    }
-    
-    private func continueAnimation() {
-        guard let propertyAnimator = sessionAnimator else { return }
-        let durationFactor = self.durationFactor(for: propertyAnimator)
-        propertyAnimator.continueAnimation(withTimingParameters: propertyAnimator.timingParameters, durationFactor: durationFactor)
+        sessionAnimator?.continueAnimation()
     }
     
 }
