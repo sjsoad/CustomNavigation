@@ -7,10 +7,9 @@
 
 import UIKit
 
-public protocol TransitioningDelegate: UIViewControllerTransitioningDelegate, AnimationControllerProvider {
+public protocol TransitioningDelegate: UIViewControllerTransitioningDelegate, InteractionControllerProvider, AnimationControllerProvider {
     
     var presentationControllerProvider: PresentationControllerProvider? { get set }
-    var interactionController: InteractionControlling? { get set }
     
     init(animatedTransitioning: CustomAnimatedTransitioning?, presentationControllerProvider: PresentationControllerProvider?,
          interactionController: InteractionControlling?)

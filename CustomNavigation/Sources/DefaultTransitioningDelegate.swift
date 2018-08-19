@@ -8,6 +8,8 @@
 
 import UIKit
 
+// For modal transitions
+
 open class DefaultTransitioningDelegate: NSObject, TransitioningDelegate {
     
     public var animatedTransitioning: CustomAnimatedTransitioning?

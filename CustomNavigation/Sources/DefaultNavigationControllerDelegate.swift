@@ -7,7 +7,9 @@
 
 import UIKit
 
-open class DefaultNavigationControllerDelegate: NSObject, UINavigationControllerDelegate {
+// For navigation transitions
+
+open class DefaultNavigationControllerDelegate: NSObject, InteractionControllerProvider, UINavigationControllerDelegate {
     
     open var interactionController: InteractionControlling?
     
