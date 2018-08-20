@@ -73,4 +73,18 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
         animationFinished()
     }
     
+    // MARK: - TransitionProvider -
+    
+    public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
+        print("prepareForAnimation")
+    }
+    
+    public func performAnimation(fromView: UIView?, toView: UIView?) {
+        print("performAnimation")
+    }
+    
+    public func completeTransition(fromView: UIView?, toView: UIView?) {
+        print("completeTransition")
+    }
+    
 }

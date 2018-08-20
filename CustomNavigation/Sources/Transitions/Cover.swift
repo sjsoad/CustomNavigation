@@ -11,14 +11,14 @@ import SKAnimator
 
 open class Cover: DirectionalTransition {
     
-    public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
+    override public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
         let xPoint = xPosition(for: toView)
         let yPoint = yPosition(for: toView)
         guard !reverseTransition else { return }
         toView?.transform = CGAffineTransform(translationX: xPoint, y: yPoint)
     }
     
-    public func performAnimation(fromView: UIView?, toView: UIView?) {
+    override public func performAnimation(fromView: UIView?, toView: UIView?) {
         let xPoint = xPosition(for: fromView)
         let yPoint = yPosition(for: fromView)
         guard reverseTransition else {
@@ -27,7 +27,7 @@ open class Cover: DirectionalTransition {
         fromView?.transform = CGAffineTransform(translationX: xPoint, y: yPoint)
     }
     
-    public func completeTransition(fromView: UIView?, toView: UIView?) {
+    override public func completeTransition(fromView: UIView?, toView: UIView?) {
         fromView?.transform = .identity
         toView?.transform = .identity
     }

@@ -19,7 +19,7 @@ open class ZoomSlide: DirectionalTransition {
         super.init(transitionDirection: transitionDirection, animatorProvider: animatorProvider)
     }
     
-    public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
+    override public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
         let xPoint = xPosition(for: toView)
         let yPoint = yPosition(for: toView)
         let multiplier: CGFloat = reverseTransition ? -1 : 1
@@ -28,7 +28,7 @@ open class ZoomSlide: DirectionalTransition {
         toView?.transform = transform
     }
     
-    public func performAnimation(fromView: UIView?, toView: UIView?) {
+    override public func performAnimation(fromView: UIView?, toView: UIView?) {
         let xPoint = xPosition(for: fromView)
         let yPoint = yPosition(for: fromView)
         toView?.transform = .identity
@@ -38,7 +38,7 @@ open class ZoomSlide: DirectionalTransition {
         fromView?.transform = transform
     }
     
-    public func completeTransition(fromView: UIView?, toView: UIView?) {
+    override public func completeTransition(fromView: UIView?, toView: UIView?) {
         fromView?.transform = .identity
         toView?.transform = .identity
     }

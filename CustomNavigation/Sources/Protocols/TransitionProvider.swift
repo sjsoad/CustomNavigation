@@ -14,11 +14,3 @@ public protocol TransitionProvider {
     func completeTransition(fromView: UIView?, toView: UIView?)
     
 }
-
-public extension TransitionProvider {
-    
-    func prepareForAnimation(fromView: UIView?, toView: UIView?) {}
-    func performAnimation(fromView: UIView?, toView: UIView?) {}
-    func completeTransition(fromView: UIView?, toView: UIView?) {}
-    
-}

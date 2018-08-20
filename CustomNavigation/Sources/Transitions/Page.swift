@@ -19,7 +19,7 @@ open class Page: DirectionalTransition {
         super.init(transitionDirection: transitionDirection, animatorProvider: animatorProvider)
     }
     
-    public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
+    override public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
         let xPoint = xPosition(for: toView)
         let yPoint = yPosition(for: toView)
         guard reverseTransition else {
@@ -28,7 +28,7 @@ open class Page: DirectionalTransition {
         toView?.transform = CGAffineTransform(scaleX: scale, y: scale)
     }
     
-    public func performAnimation(fromView: UIView?, toView: UIView?) {
+    override public func performAnimation(fromView: UIView?, toView: UIView?) {
         let xPoint = xPosition(for: fromView)
         let yPoint = yPosition(for: fromView)
         toView?.transform = .identity
@@ -38,7 +38,7 @@ open class Page: DirectionalTransition {
         fromView?.transform = CGAffineTransform(translationX: xPoint, y: yPoint)
     }
     
-    public func completeTransition(fromView: UIView?, toView: UIView?) {
+    override public func completeTransition(fromView: UIView?, toView: UIView?) {
         fromView?.transform = .identity
         toView?.transform = .identity
     }

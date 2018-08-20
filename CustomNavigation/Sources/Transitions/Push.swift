@@ -11,7 +11,7 @@ import SKAnimator
 
 open class Push: DirectionalTransition {
     
-    public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
+    override public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
         let xPoint = xPosition(for: toView)
         let yPoint = yPosition(for: toView)
         guard reverseTransition else {
@@ -20,7 +20,7 @@ open class Push: DirectionalTransition {
         toView?.transform = CGAffineTransform(translationX: -xPoint * xDelta, y: -yPoint * yDelta)
     }
     
-    public func performAnimation(fromView: UIView?, toView: UIView?) {
+    override public func performAnimation(fromView: UIView?, toView: UIView?) {
         let xPoint = xPosition(for: fromView)
         let yPoint = yPosition(for: fromView)
         toView?.transform = .identity
@@ -30,7 +30,7 @@ open class Push: DirectionalTransition {
         fromView?.transform = CGAffineTransform(translationX: xPoint, y: yPoint)
     }
     
-    public func completeTransition(fromView: UIView?, toView: UIView?) {
+    override public func completeTransition(fromView: UIView?, toView: UIView?) {
         fromView?.transform = .identity
         toView?.transform = .identity
     }
