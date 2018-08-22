@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension UIViewPropertyAnimator {
+extension UIViewPropertyAnimator {
     
     var durationFactor: CGFloat {
         let animationDuration = CGFloat(duration)
