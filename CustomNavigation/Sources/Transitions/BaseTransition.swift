@@ -23,16 +23,11 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     
     // MARK: - CustomAnimatedTransitioning -
     
-    public func prepareForAnimation(with fromView: UIView?, and toView: UIView?) {
-        print("prepareForAnimation")
-    }
+    public func prepareForAnimation(with fromView: UIView?, and toView: UIView?) {}
     
-    public func performAnimation(with fromView: UIView?, and toView: UIView?) {
-        print("performAnimation")
-    }
+    public func performAnimation(with fromView: UIView?, and toView: UIView?) {}
     
     public func completeTransition(with fromView: UIView?, and toView: UIView?) {
-        print("completeTransition")
         fromView?.transform = .identity
         toView?.transform = .identity
     }
