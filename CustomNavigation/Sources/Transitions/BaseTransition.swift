@@ -46,7 +46,7 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     public func interruptibleAnimator(using transitionContext: UIViewControllerContextTransitioning) -> UIViewImplicitlyAnimating {
         sessionContext = transitionContext
         guard let animator = sessionAnimator else {
-            let animator = animatorProvider.animator()
+            let animator = createAnimator()
             if let toView = transitionContext.toView() {
                 let fromView = transitionContext.view(forKey: .from)
                 transitionContext.addDestinationView(for: reverseTransition)
@@ -59,7 +59,6 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
                     transitionContext.completeTransition(position == .end)
                     self?.completeTransition(fromView: fromView, toView: toView)
                 }
-                sessionAnimator = animator
             }
             return animator
         }
@@ -75,6 +74,14 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
         sessionAnimator = nil
         sessionContext = nil
         if transitionCompleted { animationFinished() }
+    }
+    
+    // MARK: - Private -
+    
+    private func createAnimator() -> UIViewPropertyAnimator {
+        let animator = animatorProvider.animator()
+        sessionAnimator = animator
+        return animator
     }
     
 }
