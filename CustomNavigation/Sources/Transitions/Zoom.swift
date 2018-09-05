@@ -25,8 +25,9 @@ open class Zoom: BaseTransition {
     }
     
     override public func completeTransition(fromView: UIView?, toView: UIView?) {
-        fromView?.reset()
-        toView?.reset()
+        super.completeTransition(fromView: fromView, toView: toView)
+        fromView?.alpha = 1
+        toView?.alpha = 1
     }
     
 }
