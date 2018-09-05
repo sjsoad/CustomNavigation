@@ -28,10 +28,5 @@ open class Slide: DirectionalTransition {
             return }
         fromView?.transform = CGAffineTransform(translationX: xPoint, y: yPoint)
     }
-    
-    override public func completeTransition(fromView: UIView?, toView: UIView?) {
-        fromView?.transform = .identity
-        toView?.transform = .identity
-    }
 
 }

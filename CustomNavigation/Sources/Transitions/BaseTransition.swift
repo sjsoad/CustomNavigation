@@ -32,7 +32,8 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     }
     
     public func completeTransition(fromView: UIView?, toView: UIView?) {
-        print("completeTransition")
+        fromView?.transform = .identity
+        toView?.transform = .identity
     }
     
     // MARK: - UIViewControllerAnimatedTransitioning -

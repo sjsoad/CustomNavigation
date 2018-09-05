@@ -28,10 +28,5 @@ open class ZoomSlide: ScaleTransition {
         transform = transform.scaledBy(x: scale, y: scale)
         fromView?.transform = transform
     }
-    
-    override public func completeTransition(fromView: UIView?, toView: UIView?) {
-        fromView?.transform = .identity
-        toView?.transform = .identity
-    }
 
 }
