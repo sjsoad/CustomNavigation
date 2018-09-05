@@ -80,15 +80,17 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     
     private func addAnimations(with fromView: UIView?, and toView: UIView?) {
         sessionAnimator?.addAnimations { [weak self] in
-            self?.performAnimation(with: fromView, and: toView)
+            guard let `self` = self else { return }
+            self.performAnimation(with: fromView, and: toView)
         }
     }
     
     private func addCompletion(with fromView: UIView?, and toView: UIView?) {
         sessionAnimator?.addCompletion {  [weak self] (position) in
-            self?.sessionContext?.completeInteraction(position == .end)
-            self?.sessionContext?.completeTransition(position == .end)
-            self?.completeTransition(with: fromView, and: toView)
+            guard let `self` = self else { return }
+            self.sessionContext?.completeInteraction(position == .end)
+            self.sessionContext?.completeTransition(position == .end)
+            self.completeTransition(with: fromView, and: toView)
         }
     }
     
