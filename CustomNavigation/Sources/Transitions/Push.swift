@@ -40,7 +40,7 @@ open class Push: DirectionalTransition {
     private var xDelta: CGFloat {
         switch transitionDirection {
         case .fromRight, .fromLeft:
-            return 0.8
+            return pushXDelta
         default:
             return 1
         }
@@ -49,7 +49,7 @@ open class Push: DirectionalTransition {
     private var yDelta: CGFloat {
         switch transitionDirection {
         case .fromTop, .fromBottom:
-            return 0.8
+            return pushYDelta
         default:
             return 1
         }

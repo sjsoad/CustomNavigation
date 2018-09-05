@@ -9,6 +9,6 @@ import Foundation
 
 public protocol InteractionControllerProvider {
     
-    var interactionController: InteractionControlling? { get set }
+    var interactionController: InteractionController? { get set }
     
 }

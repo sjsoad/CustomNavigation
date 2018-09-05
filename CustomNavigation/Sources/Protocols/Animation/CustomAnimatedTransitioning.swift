@@ -8,12 +8,15 @@
 
 import UIKit
 
-public protocol CustomAnimatedTransitioning: UIViewControllerAnimatedTransitioning, TransitionProvider, InteractionControllingDelegate {
+public protocol CustomAnimatedTransitioning: UIViewControllerAnimatedTransitioning, InteractionControllerDelegate {
     
     var reverseTransition: Bool { get set }
     
     func animationFinished()
     
+    func prepareForAnimation(fromView: UIView?, toView: UIView?)
+    func performAnimation(fromView: UIView?, toView: UIView?)
+    func completeTransition(fromView: UIView?, toView: UIView?)
 }
 
 public extension CustomAnimatedTransitioning {

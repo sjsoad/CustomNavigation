@@ -11,13 +11,27 @@ import SKAnimator
 open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     
     public private(set) var sessionAnimator: UIViewPropertyAnimator?
-    public private(set) var context: UIViewControllerContextTransitioning?
+    public private(set) var sessionContext: UIViewControllerContextTransitioning?
     open var reverseTransition: Bool = false
     
     public var animatorProvider: AnimatorProvider
     
     public init(animatorProvider: AnimatorProvider = DefaultAnimatorProvider()) {
         self.animatorProvider = animatorProvider
+    }
+    
+    // MARK: - CustomAnimatedTransitioning -
+    
+    public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
+        print("prepareForAnimation")
+    }
+    
+    public func performAnimation(fromView: UIView?, toView: UIView?) {
+        print("performAnimation")
+    }
+    
+    public func completeTransition(fromView: UIView?, toView: UIView?) {
+        print("completeTransition")
     }
     
     // MARK: - UIViewControllerAnimatedTransitioning -
@@ -27,21 +41,19 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     }
     
     public func interruptibleAnimator(using transitionContext: UIViewControllerContextTransitioning) -> UIViewImplicitlyAnimating {
-        context = transitionContext
+        sessionContext = transitionContext
         guard let animator = sessionAnimator else {
             let animator = animatorProvider.animator()
-            if let toView = transitionContext.view(forKey: .to) {
+            if let toView = transitionContext.view(forKey: .to), let toVC = transitionContext.viewController(forKey: .to) {
+                toView.frame = transitionContext.finalFrame(for: toVC)
                 let fromView = transitionContext.view(forKey: .from)
                 if reverseTransition {
                     transitionContext.containerView.insertSubview(toView, at: 0)
                 } else {
                     transitionContext.containerView.addSubview(toView)
                 }
-                let subviewsAnimationProvider = SubviewsAnimationProvider(transitionContext: transitionContext)
-                subviewsAnimationProvider.prepareForAnimation()
                 prepareForAnimation(fromView: fromView, toView: toView)
                 animator.addAnimations { [weak self] in
-                    subviewsAnimationProvider.performAnimation()
                     self?.performAnimation(fromView: fromView, toView: toView)
                 }
                 animator.addCompletion {  [weak self] (position) in
@@ -51,7 +63,6 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
                         transitionContext.cancelInteractiveTransition()
                     }
                     transitionContext.completeTransition(position == .end)
-                    subviewsAnimationProvider.completeAnimation()
                     self?.completeTransition(fromView: fromView, toView: toView)
                 }
                 sessionAnimator = animator
@@ -68,23 +79,8 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     
     public func animationEnded(_ transitionCompleted: Bool) {
         sessionAnimator = nil
-        context = nil
-        guard transitionCompleted else { return }
-        animationFinished()
-    }
-    
-    // MARK: - TransitionProvider -
-    
-    public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
-        print("prepareForAnimation")
-    }
-    
-    public func performAnimation(fromView: UIView?, toView: UIView?) {
-        print("performAnimation")
-    }
-    
-    public func completeTransition(fromView: UIView?, toView: UIView?) {
-        print("completeTransition")
+        sessionContext = nil
+        if transitionCompleted { animationFinished() }
     }
     
 }

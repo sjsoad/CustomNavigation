@@ -13,7 +13,7 @@ open class ZoomSlide: DirectionalTransition {
     
     public private(set) var scale: CGFloat
     
-    public init(scale: CGFloat = 0.8, transitionDirection: TransitionDirection = .fromTop,
+    public init(scale: CGFloat = defaultScale, transitionDirection: TransitionDirection = .fromTop,
                 animatorProvider: AnimatorProvider = DefaultAnimatorProvider()) {
         self.scale = scale
         super.init(transitionDirection: transitionDirection, animatorProvider: animatorProvider)

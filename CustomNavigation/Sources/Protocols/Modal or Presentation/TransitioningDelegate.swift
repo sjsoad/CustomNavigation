@@ -12,5 +12,5 @@ public protocol TransitioningDelegate: UIViewControllerTransitioningDelegate, In
     var presentationControllerProvider: PresentationControllerProvider? { get set }
     
     init(animatedTransitioning: CustomAnimatedTransitioning?, presentationControllerProvider: PresentationControllerProvider?,
-         interactionController: InteractionControlling?)
+         interactionController: InteractionController?)
 }

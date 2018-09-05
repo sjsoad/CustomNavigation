@@ -13,7 +13,7 @@ open class Page: DirectionalTransition {
 
     public private(set) var scale: CGFloat
     
-    public init(scale: CGFloat = 0.8, transitionDirection: TransitionDirection = .fromRight,
+    public init(scale: CGFloat = defaultScale, transitionDirection: TransitionDirection = .fromRight,
                 animatorProvider: AnimatorProvider = DefaultAnimatorProvider()) {
         self.scale = scale
         super.init(transitionDirection: transitionDirection, animatorProvider: animatorProvider)

@@ -21,9 +21,9 @@ open class DirectionalTransition: BaseTransition {
         guard let view = view else { return 0 }
         switch transitionDirection {
         case .fromRight:
-            return view.frame.size.width + view.frame.origin.x
+            return view.frame.maxX
         case .fromLeft:
-            return -(view.frame.size.width + view.frame.origin.x)
+            return -view.frame.maxX
         default:
             return 0
         }
@@ -33,9 +33,9 @@ open class DirectionalTransition: BaseTransition {
         guard let view = view else { return 0 }
         switch transitionDirection {
         case .fromTop:
-            return -(view.frame.size.height + view.frame.origin.y)
+            return -view.frame.maxY
         case .fromBottom:
-            return view.frame.size.height + view.frame.origin.y
+            return view.frame.maxY
         default:
             return 0
         }

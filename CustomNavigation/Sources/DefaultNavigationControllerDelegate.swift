@@ -9,11 +9,11 @@ import UIKit
 
 // For navigation transitions
 
-open class DefaultNavigationControllerDelegate: NSObject, InteractionControllerProvider, UINavigationControllerDelegate {
+open class DefaultNavigationControllerDelegate: NSObject, NavigationControllerDelegate {
     
-    open var interactionController: InteractionControlling?
+    open var interactionController: InteractionController?
     
-    public init(with interactionController: InteractionControlling? = nil) {
+    public init(with interactionController: InteractionController? = nil) {
         self.interactionController = interactionController
     }
     
@@ -28,12 +28,28 @@ open class DefaultNavigationControllerDelegate: NSObject, InteractionControllerP
     public func navigationController(_ navigationController: UINavigationController,
                                      animationControllerFor operation: UINavigationControllerOperation,
                                      from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        let sourceVC = operation == .push ? fromVC : toVC
-        var animationControllerProvider = sourceVC as? AnimationControllerProvider
-        let animatedTransitioning = animationControllerProvider?.animatedTransitioning
-        animatedTransitioning?.reverseTransition = operation != .push
+        let sourceVC = sourceViewController(for: operation, from: fromVC, to: toVC)
+        guard let animatedTransitioning = animatedTransitioning(from: sourceVC)  else { return nil }
+        animatedTransitioning.reverseTransition = reverseTransition(with: operation)
         interactionController?.interactionDelegate = animatedTransitioning
         return animatedTransitioning
+    }
+    
+    // MARK: - Private -
+    
+    private func sourceViewController(for operation: UINavigationControllerOperation, from fromVC: UIViewController,
+                                      to toVC: UIViewController) -> UIViewController {
+        return operation == .push ? fromVC : toVC
+    }
+    
+    private func animatedTransitioning(from viewController: UIViewController) -> CustomAnimatedTransitioning? {
+        guard let animationControllerProvider = viewController as? AnimationControllerProvider,
+            let animatedTransitioning = animationControllerProvider.animatedTransitioning else { return nil }
+        return animatedTransitioning
+    }
+    
+    private func reverseTransition(with operation: UINavigationControllerOperation) -> Bool {
+        return operation != .push
     }
     
 }

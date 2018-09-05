@@ -8,17 +8,17 @@
 
 import UIKit
 
-// For modal transitions
+// For modal transitions or presentation
 
 open class DefaultTransitioningDelegate: NSObject, TransitioningDelegate {
     
     public var animatedTransitioning: CustomAnimatedTransitioning?
     public var presentationControllerProvider: PresentationControllerProvider?
-    public var interactionController: InteractionControlling?
+    public var interactionController: InteractionController?
     
     public required init(animatedTransitioning: CustomAnimatedTransitioning? = nil,
                          presentationControllerProvider: PresentationControllerProvider? = nil,
-                         interactionController: InteractionControlling? = nil) {
+                         interactionController: InteractionController? = nil) {
         self.animatedTransitioning = animatedTransitioning
         self.presentationControllerProvider = presentationControllerProvider
         self.interactionController = interactionController

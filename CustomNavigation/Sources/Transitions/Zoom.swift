@@ -13,23 +13,20 @@ open class Zoom: BaseTransition {
     override public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
         guard !reverseTransition else { return }
         toView?.alpha = 0
-        toView?.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
+        toView?.transform = CGAffineTransform.minScale
     }
     
     override public func performAnimation(fromView: UIView?, toView: UIView?) {
         guard reverseTransition else {
-            toView?.transform = .identity
-            toView?.alpha = 1
+            toView?.reset()
             return }
-        fromView?.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
+        fromView?.transform = CGAffineTransform.minScale
         fromView?.alpha = 0
     }
     
     override public func completeTransition(fromView: UIView?, toView: UIView?) {
-        fromView?.alpha = 1
-        fromView?.transform = .identity
-        toView?.alpha = 1
-        toView?.transform = .identity
+        fromView?.reset()
+        toView?.reset()
     }
     
 }

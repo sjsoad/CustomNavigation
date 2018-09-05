@@ -1,16 +1,16 @@
 //
-//  InteractionControllingDelegate.swift
-//  AERecord
+//  InteractionControllerDelegate.swift
+//
 //
 //  Created by Sergey on 17.08.2018.
 //
 
 import Foundation
 
-public protocol InteractionControllingDelegate: class {
+public protocol InteractionControllerDelegate: class {
     
     var sessionAnimator: UIViewPropertyAnimator? { get }
-    var context: UIViewControllerContextTransitioning? { get }
+    var sessionContext: UIViewControllerContextTransitioning? { get }
     
     func interactionDidUpdate(with progress: CGFloat)
     func interactionDidCanceled()
@@ -18,11 +18,11 @@ public protocol InteractionControllingDelegate: class {
     
 }
 
-public extension InteractionControllingDelegate {
+public extension InteractionControllerDelegate {
     
     public func interactionDidUpdate(with progress: CGFloat) {
         sessionAnimator?.fractionComplete = progress
-        context?.updateInteractiveTransition(progress)
+        sessionContext?.updateInteractiveTransition(progress)
     }
     
     public func interactionDidCanceled() {
