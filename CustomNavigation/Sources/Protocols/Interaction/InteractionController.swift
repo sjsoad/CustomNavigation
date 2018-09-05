@@ -11,6 +11,7 @@ import Foundation
 public protocol InteractionController: UIViewControllerInteractiveTransitioning {
 
     var interactionInProgress: Bool { get set }
+     // jist declear this property and CustomAnimatedTransitioning will work with it
     var interactionDelegate: InteractionControllerDelegate? { get set }
     
     func activate()

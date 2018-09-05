@@ -7,17 +7,8 @@
 //
 
 import UIKit
-import SKAnimator
 
-open class ZoomSlide: DirectionalTransition {
-    
-    public private(set) var scale: CGFloat
-    
-    public init(scale: CGFloat = defaultScale, transitionDirection: TransitionDirection = .fromTop,
-                animatorProvider: AnimatorProvider = DefaultAnimatorProvider()) {
-        self.scale = scale
-        super.init(transitionDirection: transitionDirection, animatorProvider: animatorProvider)
-    }
+open class ZoomSlide: ScaleTransition {
     
     override public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
         let xPoint = xPosition(for: toView)

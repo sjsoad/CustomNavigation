@@ -12,6 +12,7 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     
     public private(set) var sessionAnimator: UIViewPropertyAnimator?
     public private(set) var sessionContext: UIViewControllerContextTransitioning?
+    
     open var reverseTransition: Bool = false
     
     public var animatorProvider: AnimatorProvider
@@ -44,24 +45,15 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
         sessionContext = transitionContext
         guard let animator = sessionAnimator else {
             let animator = animatorProvider.animator()
-            if let toView = transitionContext.view(forKey: .to), let toVC = transitionContext.viewController(forKey: .to) {
-                toView.frame = transitionContext.finalFrame(for: toVC)
+            if let toView = transitionContext.toView() {
                 let fromView = transitionContext.view(forKey: .from)
-                if reverseTransition {
-                    transitionContext.containerView.insertSubview(toView, at: 0)
-                } else {
-                    transitionContext.containerView.addSubview(toView)
-                }
+                transitionContext.addDestinationView(for: reverseTransition)
                 prepareForAnimation(fromView: fromView, toView: toView)
                 animator.addAnimations { [weak self] in
                     self?.performAnimation(fromView: fromView, toView: toView)
                 }
                 animator.addCompletion {  [weak self] (position) in
-                    if position == .end {
-                        transitionContext.finishInteractiveTransition()
-                    } else {
-                        transitionContext.cancelInteractiveTransition()
-                    }
+                    transitionContext.completeInteraction(position == .end)
                     transitionContext.completeTransition(position == .end)
                     self?.completeTransition(fromView: fromView, toView: toView)
                 }
