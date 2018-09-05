@@ -10,19 +10,19 @@ import UIKit
 
 open class Fade: BaseTransition {
     
-    override public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
+    override public func prepareForAnimation(with fromView: UIView?, and toView: UIView?) {
         guard !reverseTransition else { return }
         toView?.alpha = 0
     }
     
-    override public func performAnimation(fromView: UIView?, toView: UIView?) {
+    override public func performAnimation(with fromView: UIView?, and toView: UIView?) {
         guard reverseTransition else {
             toView?.alpha = 1
             return }
         fromView?.alpha = 0
     }
     
-    override public func completeTransition(fromView: UIView?, toView: UIView?) {
+    override public func completeTransition(with fromView: UIView?, and toView: UIView?) {
         fromView?.alpha = 1
         toView?.alpha = 1
     }

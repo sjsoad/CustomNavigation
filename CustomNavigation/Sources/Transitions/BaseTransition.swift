@@ -23,15 +23,15 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     
     // MARK: - CustomAnimatedTransitioning -
     
-    public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
+    public func prepareForAnimation(with fromView: UIView?, and toView: UIView?) {
         print("prepareForAnimation")
     }
     
-    public func performAnimation(fromView: UIView?, toView: UIView?) {
+    public func performAnimation(with fromView: UIView?, and toView: UIView?) {
         print("performAnimation")
     }
     
-    public func completeTransition(fromView: UIView?, toView: UIView?) {
+    public func completeTransition(with fromView: UIView?, and toView: UIView?) {
         print("completeTransition")
         fromView?.transform = .identity
         toView?.transform = .identity
@@ -50,15 +50,9 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
             if let toView = transitionContext.toView() {
                 let fromView = transitionContext.view(forKey: .from)
                 transitionContext.addDestinationView(for: reverseTransition)
-                prepareForAnimation(fromView: fromView, toView: toView)
-                animator.addAnimations { [weak self] in
-                    self?.performAnimation(fromView: fromView, toView: toView)
-                }
-                animator.addCompletion {  [weak self] (position) in
-                    transitionContext.completeInteraction(position == .end)
-                    transitionContext.completeTransition(position == .end)
-                    self?.completeTransition(fromView: fromView, toView: toView)
-                }
+                prepareForAnimation(with: fromView, and: toView)
+                addAnimations(with: fromView, and: toView)
+                addCompletion(with: fromView, and: toView)
             }
             return animator
         }
@@ -82,6 +76,20 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
         let animator = animatorProvider.animator()
         sessionAnimator = animator
         return animator
+    }
+    
+    private func addAnimations(with fromView: UIView?, and toView: UIView?) {
+        sessionAnimator?.addAnimations { [weak self] in
+            self?.performAnimation(with: fromView, and: toView)
+        }
+    }
+    
+    private func addCompletion(with fromView: UIView?, and toView: UIView?) {
+        sessionAnimator?.addCompletion {  [weak self] (position) in
+            self?.sessionContext?.completeInteraction(position == .end)
+            self?.sessionContext?.completeTransition(position == .end)
+            self?.completeTransition(with: fromView, and: toView)
+        }
     }
     
 }

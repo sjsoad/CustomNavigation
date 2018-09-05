@@ -10,7 +10,7 @@ import UIKit
 
 open class ZoomSlide: ScaleTransition {
     
-    override public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
+    override public func prepareForAnimation(with fromView: UIView?, and toView: UIView?) {
         let xPoint = xPosition(for: toView)
         let yPoint = yPosition(for: toView)
         let multiplier: CGFloat = reverseTransition ? -1 : 1
@@ -19,7 +19,7 @@ open class ZoomSlide: ScaleTransition {
         toView?.transform = transform
     }
     
-    override public func performAnimation(fromView: UIView?, toView: UIView?) {
+    override public func performAnimation(with fromView: UIView?, and toView: UIView?) {
         let xPoint = xPosition(for: fromView)
         let yPoint = yPosition(for: fromView)
         toView?.transform = .identity

@@ -10,13 +10,13 @@ import UIKit
 
 open class Zoom: BaseTransition {
     
-    override public func prepareForAnimation(fromView: UIView?, toView: UIView?) {
+    override public func prepareForAnimation(with fromView: UIView?, and toView: UIView?) {
         guard !reverseTransition else { return }
         toView?.alpha = 0
         toView?.transform = CGAffineTransform.minScale
     }
     
-    override public func performAnimation(fromView: UIView?, toView: UIView?) {
+    override public func performAnimation(with fromView: UIView?, and toView: UIView?) {
         guard reverseTransition else {
             toView?.reset()
             return }
@@ -24,8 +24,8 @@ open class Zoom: BaseTransition {
         fromView?.alpha = 0
     }
     
-    override public func completeTransition(fromView: UIView?, toView: UIView?) {
-        super.completeTransition(fromView: fromView, toView: toView)
+    override public func completeTransition(with fromView: UIView?, and toView: UIView?) {
+        super.completeTransition(with: fromView, and: toView)
         fromView?.alpha = 1
         toView?.alpha = 1
     }

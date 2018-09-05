@@ -14,9 +14,9 @@ public protocol CustomAnimatedTransitioning: UIViewControllerAnimatedTransitioni
     
     func animationFinished()
     
-    func prepareForAnimation(fromView: UIView?, toView: UIView?)
-    func performAnimation(fromView: UIView?, toView: UIView?)
-    func completeTransition(fromView: UIView?, toView: UIView?)
+    func prepareForAnimation(with fromView: UIView?, and toView: UIView?)
+    func performAnimation(with fromView: UIView?, and toView: UIView?)
+    func completeTransition(with fromView: UIView?, and toView: UIView?)
 }
 
 public extension CustomAnimatedTransitioning {
