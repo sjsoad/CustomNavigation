@@ -10,7 +10,7 @@ import UIKit
 public extension UIView {
     
     private static var subviewIdKey = "subviewId"
-    private static var subviewsAnimationEnabledKey = "subviewsAnimationEnabled"
+    private static var subviewsMathingdKey = "subviewsAnimationEnabled"
     
     @IBInspectable var subviewId: String? {
         get {
@@ -21,12 +21,12 @@ public extension UIView {
         }
     }
     
-    @IBInspectable var subviewsAnimationEnabled: Bool {
+    @IBInspectable var subviewsMathing: Bool {
         get {
-            return objc_getAssociatedObject(self, &UIView.subviewsAnimationEnabledKey) as? Bool ?? false
+            return objc_getAssociatedObject(self, &UIView.subviewsMathingdKey) as? Bool ?? false
         }
         set {
-            objc_setAssociatedObject(self, &UIView.subviewsAnimationEnabledKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &UIView.subviewsMathingdKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     

@@ -16,7 +16,3 @@ public protocol CustomAnimatedTransitioning: UIViewControllerAnimatedTransitioni
     func performAnimation(with fromView: UIView?, and toView: UIView?)
     func completeTransition(with fromView: UIView?, and toView: UIView?)
 }
-
-public extension CustomAnimatedTransitioning {
-
-}
