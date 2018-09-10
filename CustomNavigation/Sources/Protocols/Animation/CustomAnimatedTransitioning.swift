@@ -12,17 +12,11 @@ public protocol CustomAnimatedTransitioning: UIViewControllerAnimatedTransitioni
     
     var reverseTransition: Bool { get set }
     
-    func animationFinished()
-    
     func prepareForAnimation(with fromView: UIView?, and toView: UIView?)
     func performAnimation(with fromView: UIView?, and toView: UIView?)
     func completeTransition(with fromView: UIView?, and toView: UIView?)
 }
 
 public extension CustomAnimatedTransitioning {
-    
-    func animationFinished() {
-        reverseTransition = !reverseTransition
-    }
-    
+
 }

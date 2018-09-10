@@ -62,7 +62,6 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     public func animationEnded(_ transitionCompleted: Bool) {
         sessionAnimator = nil
         sessionContext = nil
-        if transitionCompleted { animationFinished() }
     }
     
     // MARK: - Private -
