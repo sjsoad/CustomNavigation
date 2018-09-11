@@ -16,6 +16,7 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     open var reverseTransition: Bool = false
     
     public var animatorProvider: AnimatorProvider
+    private var subviewsMatchingAnimator: SubviewsMatchingAnimatable?
     
     public init(animatorProvider: AnimatorProvider = DefaultAnimatorProvider()) {
         self.animatorProvider = animatorProvider
@@ -40,12 +41,14 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     
     public func interruptibleAnimator(using transitionContext: UIViewControllerContextTransitioning) -> UIViewImplicitlyAnimating {
         sessionContext = transitionContext
+        subviewsMatchingAnimator = SubviewsMathingAnimationProvider(transitionContext: transitionContext)
         guard let animator = sessionAnimator else {
             let animator = createAnimator()
             if let toView = transitionContext.toView() {
                 let fromView = transitionContext.view(forKey: .from)
                 transitionContext.addDestinationView(for: reverseTransition)
                 prepareForAnimation(with: fromView, and: toView)
+                subviewsMatchingAnimator?.prepareForAnimation()
                 addAnimations(with: fromView, and: toView)
                 addCompletion(with: fromView, and: toView)
             }
@@ -75,6 +78,7 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     private func addAnimations(with fromView: UIView?, and toView: UIView?) {
         sessionAnimator?.addAnimations { [weak self] in
             guard let `self` = self else { return }
+            self.subviewsMatchingAnimator?.performAnimation()
             self.performAnimation(with: fromView, and: toView)
         }
     }
@@ -82,6 +86,7 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     private func addCompletion(with fromView: UIView?, and toView: UIView?) {
         sessionAnimator?.addCompletion {  [weak self] (position) in
             guard let `self` = self else { return }
+            self.subviewsMatchingAnimator?.completeAnimation()
             self.sessionContext?.completeInteraction(position == .end)
             self.sessionContext?.completeTransition(position == .end)
             self.completeTransition(with: fromView, and: toView)

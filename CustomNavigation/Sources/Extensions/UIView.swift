@@ -40,12 +40,4 @@ extension UIView {
         return [self] + subviews.flatMap({ $0.flattenSubviews })
     }
     
-    var subview: Subview {
-        return (view: self, originalInfo: info)
-    }
-    
-    var info: SubviewInfo {
-        return SubviewInfo(alpha, frame, isHidden)
-    }
-    
 }
