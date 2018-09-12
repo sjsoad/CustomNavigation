@@ -43,16 +43,7 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
         sessionContext = transitionContext
         subviewsMatchingAnimator = SubviewsMathingAnimationProvider(transitionContext: transitionContext)
         guard let animator = sessionAnimator else {
-            let animator = createAnimator()
-            if let toView = transitionContext.toView() {
-                let fromView = transitionContext.view(forKey: .from)
-                transitionContext.addDestinationView(for: reverseTransition)
-                prepareForAnimation(with: fromView, and: toView)
-                subviewsMatchingAnimator?.prepareForAnimation()
-                addAnimations(with: fromView, and: toView)
-                addCompletion(with: fromView, and: toView)
-            }
-            return animator
+            return configure(with: transitionContext)
         }
         return animator
     }
@@ -68,6 +59,19 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     }
     
     // MARK: - Private -
+    
+    private func configure(with transitionContext: UIViewControllerContextTransitioning) -> UIViewImplicitlyAnimating {
+        let animator = createAnimator()
+        if let toView = transitionContext.toView() {
+            let fromView = transitionContext.view(forKey: .from)
+            transitionContext.addDestinationView(for: reverseTransition)
+            prepareForAnimation(with: fromView, and: toView)
+            subviewsMatchingAnimator?.prepareForAnimation()
+            addAnimations(with: fromView, and: toView)
+            addCompletion(with: fromView, and: toView)
+        }
+        return animator
+    }
     
     private func createAnimator() -> UIViewPropertyAnimator {
         let animator = animatorProvider.animator()
