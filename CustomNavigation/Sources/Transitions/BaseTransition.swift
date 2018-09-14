@@ -65,8 +65,8 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
         let toView = transitionContext.toView()
         let fromView = transitionContext.view(forKey: .from)
         transitionContext.addDestinationView(for: reverseTransition)
-        prepareForAnimation(with: fromView, and: toView)
         subviewsMatchingAnimator?.prepareForAnimation()
+        prepareForAnimation(with: fromView, and: toView)
         addAnimations(with: fromView, and: toView)
         addCompletion(with: fromView, and: toView)
         return animator
