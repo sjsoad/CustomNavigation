@@ -7,12 +7,20 @@
 
 import UIKit
 
-class AnimatableSubview {
+protocol SnapshotProvidable {
     
-    var view: UIView
-    var alpha: CGFloat
-    var convertedFrame: CGRect
-    var snapshot: UIImageView
+    var convertedFrame: CGRect { get }
+    var snapshot: UIImageView { get }
+    func hideOriginal()
+    func restore()
+}
+
+class AnimatableSubview: SnapshotProvidable {
+    
+    private var view: UIView
+    private var alpha: CGFloat
+    private(set) var convertedFrame: CGRect
+    private(set) var snapshot: UIImageView
     
     init(with view: UIView, and container: UIView) {
         self.view = view

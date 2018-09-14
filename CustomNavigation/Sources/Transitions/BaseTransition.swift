@@ -40,8 +40,6 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     }
     
     public func interruptibleAnimator(using transitionContext: UIViewControllerContextTransitioning) -> UIViewImplicitlyAnimating {
-        sessionContext = transitionContext
-        subviewsMatchingAnimator = SubviewsMathingAnimationProvider(transitionContext: transitionContext)
         guard let animator = sessionAnimator else {
             return configure(with: transitionContext)
         }
@@ -61,6 +59,8 @@ open class BaseTransition: NSObject, CustomAnimatedTransitioning {
     // MARK: - Private -
     
     private func configure(with transitionContext: UIViewControllerContextTransitioning) -> UIViewImplicitlyAnimating {
+        sessionContext = transitionContext
+        subviewsMatchingAnimator = SubviewsMathingAnimationProvider(transitionContext: transitionContext)
         let animator = createAnimator()
         let toView = transitionContext.toView()
         let fromView = transitionContext.view(forKey: .from)

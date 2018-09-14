@@ -13,8 +13,8 @@ open class SubviewsMathingAnimationProvider: SubviewsMatchingAnimatable {
     private var viewPairs: [SubviewsPair] = []
     
     public init?(transitionContext: UIViewControllerContextTransitioning) {
-        guard let fromView = transitionContext.view(forKey: .from),
-        let toView = transitionContext.view(forKey: .to),
+        guard let fromView = transitionContext.viewController(forKey: .from)?.view,
+        let toView = transitionContext.viewController(forKey: .to)?.view,
         fromView.subviewsMathing, toView.subviewsMathing else { return nil }
         container = transitionContext.containerView
         viewPairs = gatherPairs(in: fromView, and: toView, with: transitionContext.containerView)
@@ -36,26 +36,19 @@ open class SubviewsMathingAnimationProvider: SubviewsMatchingAnimatable {
     
     public func prepareForAnimation() {
         viewPairs.forEach { (from, to) in
-            let toSnapshot = to.snapshot
-            let fromSnapshot = from.snapshot
             from.hideOriginal()
             to.hideOriginal()
-            toSnapshot.frame = from.convertedFrame
-            container.addSubview(toSnapshot)
-            container.addSubview(fromSnapshot)
+            to.snapshot.frame = from.convertedFrame
+            from.snapshot.frame = from.convertedFrame
+            container.addSubview(to.snapshot)
+            container.addSubview(from.snapshot)
         }
     }
     
     public func performAnimation() {
         viewPairs.forEach { (from, to) in
-            let toSnapshot = to.snapshot
-            let fromSnapshot = from.snapshot
-            let fromZPosition = fromSnapshot.layer.zPosition
-            let toZPosition = toSnapshot.layer.zPosition
-            fromSnapshot.frame = to.convertedFrame
-            toSnapshot.frame = to.convertedFrame
-            fromSnapshot.layer.zPosition = toZPosition
-            toSnapshot.layer.zPosition = fromZPosition
+            to.snapshot.frame = to.convertedFrame
+            from.snapshot.frame = to.convertedFrame
         }
     }
     

@@ -10,7 +10,7 @@ import Foundation
 public typealias PresentationControllerProvider = (_ presented: UIViewController, _ presenting: UIViewController?,
     _ source: UIViewController) -> UIPresentationController?
 
-typealias SubviewsPair = (from: AnimatableSubview, to: AnimatableSubview)
+typealias SubviewsPair = (from: SnapshotProvidable, to: SnapshotProvidable)
 
 public enum TransitionDirection {
     case fromTop
