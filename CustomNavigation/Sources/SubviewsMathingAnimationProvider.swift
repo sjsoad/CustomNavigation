@@ -49,6 +49,7 @@ open class SubviewsMathingAnimationProvider: SubviewsMatchingAnimatable {
         viewPairs.forEach { (from, to) in
             to.snapshot.frame = to.convertedFrame
             from.snapshot.frame = to.convertedFrame
+            from.snapshot.alpha = 0
         }
     }
     
