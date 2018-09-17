@@ -12,6 +12,7 @@ extension UIViewControllerContextTransitioning {
     func toView() -> UIView? {
         guard let toView = view(forKey: .to), let toVC = viewController(forKey: .to) else { return nil }
         toView.frame = finalFrame(for: toVC)
+        toView.layoutIfNeeded()
         return toView
     }
     
