@@ -26,7 +26,7 @@ open class DefaultNavigationControllerDelegate: NSObject, NavigationControllerDe
     }
     
     public func navigationController(_ navigationController: UINavigationController,
-                                     animationControllerFor operation: UINavigationControllerOperation,
+                                     animationControllerFor operation: UINavigationController.Operation,
                                      from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         let sourceVC = sourceViewController(for: operation, from: fromVC, to: toVC)
         guard let animatedTransitioning = animatedTransitioning(from: sourceVC)  else { return nil }
@@ -37,7 +37,7 @@ open class DefaultNavigationControllerDelegate: NSObject, NavigationControllerDe
     
     // MARK: - Private -
     
-    private func sourceViewController(for operation: UINavigationControllerOperation, from fromVC: UIViewController,
+    private func sourceViewController(for operation: UINavigationController.Operation, from fromVC: UIViewController,
                                       to toVC: UIViewController) -> UIViewController {
         return operation == .push ? fromVC : toVC
     }
@@ -48,7 +48,7 @@ open class DefaultNavigationControllerDelegate: NSObject, NavigationControllerDe
         return animatedTransitioning
     }
     
-    private func reverseTransition(with operation: UINavigationControllerOperation) -> Bool {
+    private func reverseTransition(with operation: UINavigationController.Operation) -> Bool {
         return operation != .push
     }
     
