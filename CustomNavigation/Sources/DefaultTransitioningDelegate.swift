@@ -32,12 +32,12 @@ open class DefaultTransitioningDelegate: NSObject, TransitioningDelegate {
     }
     
     open func presentationController(forPresented presented: UIViewController, presenting: UIViewController?,
-                                       source: UIViewController) -> UIPresentationController? {
+                                     source: UIViewController) -> UIPresentationController? {
         return presentationControllerProvider?(presented, presenting, source)
     }
     
     open func animationController(forPresented presented: UIViewController, presenting: UIViewController,
-                             source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+                                  source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         animatedTransitioning?.reverseTransition = false
         return animatedTransitioning
     }
